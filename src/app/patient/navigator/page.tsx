@@ -81,7 +81,7 @@ export default function AiHealthNavigatorPage() {
                 <CardHeader>
                   <CardTitle>Symptom Checker</CardTitle>
                   <CardDescription>
-                    Describe your or your pet's symptoms, and our AI will suggest relevant specialists and available appointments. This is not a medical diagnosis.
+                    Describe symptoms for yourself or any domestic animal, and our AI will suggest relevant specialists. This is not a medical diagnosis.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -93,7 +93,7 @@ export default function AiHealthNavigatorPage() {
                         <FormLabel>Symptoms</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="e.g., 'Persistent dry cough, mild fever, and fatigue for the last 3 days.' or 'My dog has been lethargic and is not eating.'"
+                            placeholder="e.g., 'Persistent dry cough and mild fever.' or 'My horse has been limping on its front left leg.'"
                             rows={5}
                             {...field}
                           />

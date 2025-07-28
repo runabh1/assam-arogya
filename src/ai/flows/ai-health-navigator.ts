@@ -15,7 +15,7 @@ import {z} from 'genkit';
 const AiHealthNavigatorInputSchema = z.object({
   symptoms: z
     .string()
-    .describe('A description of the symptoms experienced by the patient, who could be a human or a pet.'),
+    .describe('A description of the symptoms experienced by the patient, who could be a human or a domestic animal.'),
   location: z.string().describe('The location of the patient.'),
 });
 export type AiHealthNavigatorInput = z.infer<typeof AiHealthNavigatorInputSchema>;
@@ -23,7 +23,7 @@ export type AiHealthNavigatorInput = z.infer<typeof AiHealthNavigatorInputSchema
 const AiHealthNavigatorOutputSchema = z.object({
   suggestions: z
     .string()
-    .describe('Suggestions for available appointments with relevant specialists (for humans) or veterinarians (for pets).'),
+    .describe('Suggestions for available appointments with relevant specialists (for humans) or veterinarians (for domestic animals).'),
 });
 export type AiHealthNavigatorOutput = z.infer<typeof AiHealthNavigatorOutputSchema>;
 
@@ -35,7 +35,7 @@ const prompt = ai.definePrompt({
   name: 'aiHealthNavigatorPrompt',
   input: {schema: AiHealthNavigatorInputSchema},
   output: {schema: AiHealthNavigatorOutputSchema},
-  prompt: `You are an AI health navigator for both humans and pets. A user will describe symptoms and their location, and you will suggest available appointments with relevant specialists (for humans) or veterinarians (for pets).
+  prompt: `You are an AI health navigator for both humans and domestic animals. A user will describe symptoms and their location, and you will suggest available appointments with relevant specialists (for humans) or veterinarians (for domestic animals).
 
 Symptoms: {{{symptoms}}}
 Location: {{{location}}}
