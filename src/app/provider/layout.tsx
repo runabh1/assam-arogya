@@ -24,7 +24,6 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
-import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -61,11 +60,12 @@ export default function ProviderLayout({
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
         <Sidebar>
           <SidebarContent>
-            <SidebarHeader>
+            <SidebarHeader className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2 font-semibold">
                 <Logo className="h-8 w-8 text-primary" />
                 <span className="text-lg">Unified Health Hub</span>
               </Link>
+              <SidebarTrigger />
             </SidebarHeader>
             <SidebarMenu>
               <SidebarMenuItem>
