@@ -4,6 +4,8 @@ import {
   ArrowUpRight,
   Calendar,
   Dog,
+  Feather,
+  Flower,
   User,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -34,7 +36,10 @@ export default function PatientDashboard() {
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle>My Profile</CardTitle>
+                 <CardTitle className="flex items-center gap-2">
+                  <User className="h-5 w-5 text-primary" />
+                  My Profile
+                </CardTitle>
                 <CardDescription>Jane Doe</CardDescription>
               </CardHeader>
               <CardContent>
@@ -45,7 +50,10 @@ export default function PatientDashboard() {
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle>Pet Profiles</CardTitle>
+                 <CardTitle className="flex items-center gap-2">
+                  <Flower className="h-5 w-5 text-primary" />
+                  Pet Profiles
+                </CardTitle>
                 <CardDescription>2 Active Profiles</CardDescription>
               </CardHeader>
               <CardContent>
@@ -57,19 +65,22 @@ export default function PatientDashboard() {
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle>Next Appointment</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5 text-primary" />
+                  Next Appointment
+                </CardTitle>
                 <CardDescription>Dr. Smith</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-muted-foreground" />
-                  <span>Tomorrow, 10:00 AM</span>
-                </div>
+                 <span>Tomorrow, 10:00 AM</span>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle>Health Navigator</CardTitle>
+                 <CardTitle className="flex items-center gap-2">
+                  <Feather className="h-5 w-5 text-primary" />
+                  Health Navigator
+                </CardTitle>
                 <CardDescription>Get AI-powered advice</CardDescription>
               </CardHeader>
               <CardContent>
@@ -83,7 +94,7 @@ export default function PatientDashboard() {
             <CardHeader>
               <CardTitle>Upcoming Appointments</CardTitle>
               <CardDescription>
-                Manage your upcoming appointments and consultations.
+                A garden of upcoming appointments and consultations.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -137,13 +148,13 @@ export default function PatientDashboard() {
             <CardHeader>
               <CardTitle>Recent Activity</CardTitle>
               <CardDescription>
-                New records and updates in your profile.
+                New blossoms in your health profile.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-8">
               <div className="flex items-center gap-4">
                 <Avatar className="hidden h-9 w-9 sm:flex">
-                  <AvatarImage src="https://placehold.co/100x100" alt="Avatar" />
+                  <AvatarImage src="https://placehold.co/100x100" alt="Avatar" data-ai-hint="medical icon"/>
                   <AvatarFallback>DC</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1">
@@ -151,14 +162,14 @@ export default function PatientDashboard() {
                     Lab Report Added
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Your blood test results from Downtown Labs are available.
+                    Your blood test results are available.
                   </p>
                 </div>
                 <div className="ml-auto font-medium text-sm">2h ago</div>
               </div>
               <div className="flex items-center gap-4">
                  <Avatar className="hidden h-9 w-9 sm:flex">
-                  <AvatarImage src="https://placehold.co/100x100" alt="Avatar" />
+                  <AvatarImage src="https://placehold.co/100x100" alt="Avatar" data-ai-hint="prescription icon" />
                   <AvatarFallback>DR</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1">
@@ -173,7 +184,7 @@ export default function PatientDashboard() {
               </div>
                <div className="flex items-center gap-4">
                  <Avatar className="hidden h-9 w-9 sm:flex">
-                  <AvatarImage src="https://placehold.co/100x100" alt="Avatar" />
+                  <AvatarImage src="https://placehold.co/100x100" alt="Avatar" data-ai-hint="bell icon" />
                   <AvatarFallback>VM</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1">

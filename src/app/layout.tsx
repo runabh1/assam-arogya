@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: 'Unified Health Hub',
+  title: 'Arogya Mitra - Health in Full Bloom',
   description: 'A central hub connecting patients and healthcare providers.',
 };
 
