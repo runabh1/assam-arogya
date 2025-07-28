@@ -60,11 +60,12 @@ export default function ProviderLayout({
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
         <Sidebar>
           <SidebarContent>
-            <SidebarHeader>
+            <SidebarHeader className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2 font-semibold">
                 <Logo className="h-8 w-8 text-primary" />
                 <span className="text-lg">Unified Health Hub</span>
               </Link>
+              <SidebarTrigger />
             </SidebarHeader>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -72,6 +73,7 @@ export default function ProviderLayout({
                   href="/provider/dashboard"
                   asChild
                   isActive={isActive("/provider/dashboard")}
+                  tooltip="Dashboard"
                 >
                   <Link href="/provider/dashboard">
                     <LayoutDashboard />
@@ -84,6 +86,7 @@ export default function ProviderLayout({
                   href="/provider/analytics"
                   asChild
                   isActive={isActive("/provider/analytics")}
+                  tooltip="Predictive Analytics"
                 >
                   <Link href="/provider/analytics">
                     <BarChart2 />
@@ -96,6 +99,7 @@ export default function ProviderLayout({
                   href="/provider/patients"
                   asChild
                   isActive={isActive("/provider/patients")}
+                   tooltip="Patients"
                 >
                   <Link href="/provider/patients">
                     <Users />
@@ -108,6 +112,7 @@ export default function ProviderLayout({
                   href="/provider/calendar"
                   asChild
                   isActive={isActive("/provider/calendar")}
+                   tooltip="Calendar"
                 >
                   <Link href="/provider/calendar">
                     <Calendar />
@@ -118,11 +123,10 @@ export default function ProviderLayout({
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
-        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-             <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-                <SidebarTrigger />
-                 <h1 className="font-semibold text-lg">{title}</h1>
-                 <div className="relative ml-auto flex-1 md:grow-0">
+        <div className="flex flex-col flex-1">
+             <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
+                 <h1 className="font-semibold text-lg flex-1">{title}</h1>
+                 <div className="relative ml-auto flex-shrink-0">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                     type="search"

@@ -225,49 +225,25 @@ const Sidebar = React.forwardRef<
     }
 
     return (
-      <div
+      <aside
         ref={ref}
-        className="group peer hidden md:block text-sidebar-foreground"
+        className={cn("group hidden md:flex md:flex-col text-sidebar-foreground transition-all duration-300 ease-in-out",
+        state === 'expanded' ? 'w-[--sidebar-width]' : 'w-[--sidebar-width-icon]',
+        className
+        )}
         data-state={state}
         data-collapsible={state === "collapsed" ? collapsible : ""}
         data-variant={variant}
         data-side={side}
+        {...props}
       >
-        {/* This is what handles the sidebar gap on desktop */}
         <div
-          className={cn(
-            "duration-200 relative h-svh bg-transparent transition-[width] ease-linear",
-            "w-[--sidebar-width]",
-            "group-data-[collapsible=offcanvas]:w-0",
-            "group-data-[side=right]:rotate-180",
-            variant === "floating" || variant === "inset"
-              ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]"
-              : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]"
-          )}
-        />
-        <div
-          className={cn(
-            "duration-200 fixed inset-y-0 z-10 hidden h-svh transition-[left,right,width] ease-linear md:flex",
-            "w-[--sidebar-width]",
-            side === "left"
-              ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
-              : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
-            // Adjust the padding for floating and inset variants.
-            variant === "floating" || variant === "inset"
-              ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
-              : "group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
-            className
-          )}
-          {...props}
-        >
-          <div
             data-sidebar="sidebar"
             className="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
           >
             {children}
           </div>
-        </div>
-      </div>
+      </aside>
     )
   }
 )
@@ -285,7 +261,7 @@ const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      className={cn("h-8 w-8", className)}
+      className={cn("h-8 w-8 shrink-0", className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
@@ -598,39 +574,11 @@ const SidebarMenuButton = React.forwardRef<
         {children}
       </Comp>
     )
+    
+    const tooltipContent = typeof tooltip === 'string' ? { children: tooltip } : tooltip;
 
-    if (!tooltip && state === "expanded") {
+    if (!tooltipContent && state === "expanded") {
       return button
-    }
-    
-    if (typeof children === 'function') {
-        // We can't handle this case, so we just return the button.
-        return button;
-    }
-    
-    // Find the span with the text content to use as the tooltip.
-    if (!tooltip) {
-        let textContent: string | undefined = undefined;
-        React.Children.forEach(children, (child) => {
-            if (React.isValidElement(child) && child.type === 'span') {
-                textContent = child.props.children;
-            }
-        });
-
-        if (textContent) {
-            tooltip = {
-                children: textContent,
-            }
-        } else {
-            return button;
-        }
-    }
-
-
-    if (typeof tooltip === "string") {
-      tooltip = {
-        children: tooltip,
-      }
     }
 
     return (
@@ -640,7 +588,7 @@ const SidebarMenuButton = React.forwardRef<
           side="right"
           align="center"
           hidden={state !== "collapsed" || isMobile}
-          {...tooltip}
+          {...tooltipContent}
         />
       </Tooltip>
     )

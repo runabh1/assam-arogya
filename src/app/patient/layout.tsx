@@ -66,11 +66,12 @@ export default function PatientLayout({
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
         <Sidebar>
           <SidebarContent>
-            <SidebarHeader>
+            <SidebarHeader className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2 font-semibold">
                 <Logo className="h-8 w-8 text-primary" />
                 <span className="text-lg">Unified Health Hub</span>
               </Link>
+              <SidebarTrigger />
             </SidebarHeader>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -78,6 +79,7 @@ export default function PatientLayout({
                   href="/patient/dashboard"
                   asChild
                   isActive={isActive("/patient/dashboard")}
+                  tooltip="Dashboard"
                 >
                   <Link href="/patient/dashboard">
                     <LayoutDashboard />
@@ -90,6 +92,7 @@ export default function PatientLayout({
                   href="/patient/profile"
                   asChild
                   isActive={isActive("/patient/profile")}
+                  tooltip="My Profiles"
                 >
                   <Link href="/patient/profile">
                     <Users />
@@ -102,6 +105,7 @@ export default function PatientLayout({
                   href="/patient/navigator"
                   asChild
                   isActive={isActive("/patient/navigator")}
+                   tooltip="AI Health Navigator"
                 >
                   <Link href="/patient/navigator">
                     <Bot />
@@ -114,6 +118,7 @@ export default function PatientLayout({
                   href="/patient/report-analyzer"
                   asChild
                   isActive={isActive("/patient/report-analyzer")}
+                   tooltip="AI Report Analyzer"
                 >
                   <Link href="/patient/report-analyzer">
                     <FileCheck />
@@ -126,6 +131,7 @@ export default function PatientLayout({
                   href="/patient/find-provider"
                   asChild
                   isActive={isActive("/patient/find-provider")}
+                   tooltip="Find a Provider"
                 >
                   <Link href="/patient/find-provider">
                     <Search />
@@ -138,6 +144,7 @@ export default function PatientLayout({
                   href="/patient/records"
                   asChild
                   isActive={isActive("/patient/records")}
+                   tooltip="Medical Records"
                 >
                   <Link href="/patient/records">
                     <FileText />
@@ -150,6 +157,7 @@ export default function PatientLayout({
                   href="/patient/reminders"
                   asChild
                   isActive={isActive("/patient/reminders")}
+                   tooltip="Reminders"
                 >
                   <Link href="/patient/reminders">
                     <Bell />
@@ -160,11 +168,10 @@ export default function PatientLayout({
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
-        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-            <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-                <SidebarTrigger />
-                 <h1 className="font-semibold text-lg">{title}</h1>
-                 <div className="relative ml-auto flex-1 md:grow-0">
+        <div className="flex flex-col flex-1">
+            <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
+                 <h1 className="font-semibold text-lg flex-1">{title}</h1>
+                 <div className="relative ml-auto flex-shrink-0">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                     type="search"
