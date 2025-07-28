@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview An AI-powered report analyzer that provides a summary of medical reports.
+ * @fileOverview An AI-powered report analyzer that provides a summary of medical reports from text or images.
  *
  * - analyzeReport - A function that handles the report analysis process.
  * - AnalyzeReportInput - The input type for the analyzeReport function.
@@ -16,6 +16,12 @@ const AnalyzeReportInputSchema = z.object({
   report: z
     .string()
     .describe('The content of the medical report to be analyzed, extracted from a file.'),
+  photoDataUri: z
+    .string()
+    .optional()
+    .describe(
+      "An optional photo of a medical report, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
 });
 export type AnalyzeReportInput = z.infer<typeof AnalyzeReportInputSchema>;
 
@@ -38,10 +44,17 @@ const prompt = ai.definePrompt({
 
 You will identify key findings and potential concerns that the patient should discuss with their healthcare provider.
 
-The following text was extracted from a user-uploaded medical report file. Analyze it and provide the output in the specified format.
+The following text and/or image was extracted from a user-uploaded medical report file. Analyze it and provide the output in the specified format.
 
+{{#if report}}
 Medical Report Content:
 {{{report}}}
+{{/if}}
+
+{{#if photoDataUri}}
+Medical Report Photo:
+{{media url=photoDataUri}}
+{{/if}}
 `,
 });
 
