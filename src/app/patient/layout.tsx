@@ -7,8 +7,7 @@ import { usePathname } from "next/navigation";
 import {
   Bot,
   FileText,
-  HeartPulse,
-  Home,
+  FileCheck,
   LayoutDashboard,
   Search,
   Users,
@@ -27,7 +26,6 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
-import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,6 +43,7 @@ const pageTitles: { [key: string]: string } = {
   "/patient/navigator": "AI Health Navigator",
   "/patient/find-provider": "Find a Provider",
   "/patient/records": "Medical Records",
+  "/patient/report-analyzer": "AI Report Analyzer",
   "/patient/reminders": "Health Reminders",
 };
 
@@ -107,6 +106,18 @@ export default function PatientLayout({
                   <Link href="/patient/navigator">
                     <Bot />
                     <span>AI Health Navigator</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+                <SidebarMenuItem>
+                <SidebarMenuButton
+                  href="/patient/report-analyzer"
+                  asChild
+                  isActive={isActive("/patient/report-analyzer")}
+                >
+                  <Link href="/patient/report-analyzer">
+                    <FileCheck />
+                    <span>AI Report Analyzer</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
