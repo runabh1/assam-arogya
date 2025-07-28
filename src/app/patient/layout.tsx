@@ -36,6 +36,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
+
 
 const pageTitles: { [key: string]: string } = {
   "/patient/dashboard": "Dashboard",
@@ -62,145 +65,168 @@ export default function PatientLayout({
   const title = pageTitles[pathname] || "Dashboard";
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full flex-col bg-muted/40">
-        <Sidebar>
-          <SidebarContent>
-            <SidebarHeader className="flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-2 font-semibold">
-                <Logo className="h-8 w-8 text-primary" />
-                <span className="text-lg">Unified Health Hub</span>
+    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+      <div className="hidden border-r bg-muted/40 md:block">
+        <div className="flex h-full max-h-screen flex-col gap-2">
+          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+            <Link href="/" className="flex items-center gap-2 font-semibold">
+              <Logo className="h-6 w-6 text-primary" />
+              <span className="">Unified Health Hub</span>
+            </Link>
+          </div>
+          <div className="flex-1">
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+               <Link
+                href="/patient/dashboard"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/dashboard") ? "bg-muted text-primary" : ""}`}
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Dashboard
               </Link>
-              <SidebarTrigger />
-            </SidebarHeader>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/patient/dashboard"
-                  asChild
-                  isActive={isActive("/patient/dashboard")}
-                  tooltip="Dashboard"
-                >
-                  <Link href="/patient/dashboard">
-                    <LayoutDashboard />
-                    <span>Dashboard</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/patient/profile"
-                  asChild
-                  isActive={isActive("/patient/profile")}
-                  tooltip="My Profiles"
-                >
-                  <Link href="/patient/profile">
-                    <Users />
-                    <span>My Profiles</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/patient/navigator"
-                  asChild
-                  isActive={isActive("/patient/navigator")}
-                   tooltip="AI Health Navigator"
-                >
-                  <Link href="/patient/navigator">
-                    <Bot />
-                    <span>AI Health Navigator</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-                <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/patient/report-analyzer"
-                  asChild
-                  isActive={isActive("/patient/report-analyzer")}
-                   tooltip="AI Report Analyzer"
-                >
-                  <Link href="/patient/report-analyzer">
-                    <FileCheck />
-                    <span>AI Report Analyzer</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/patient/find-provider"
-                  asChild
-                  isActive={isActive("/patient/find-provider")}
-                   tooltip="Find a Provider"
-                >
-                  <Link href="/patient/find-provider">
-                    <Search />
-                    <span>Find a Provider</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/patient/records"
-                  asChild
-                  isActive={isActive("/patient/records")}
-                   tooltip="Medical Records"
-                >
-                  <Link href="/patient/records">
-                    <FileText />
-                    <span>Medical Records</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/patient/reminders"
-                  asChild
-                  isActive={isActive("/patient/reminders")}
-                   tooltip="Reminders"
-                >
-                  <Link href="/patient/reminders">
-                    <Bell />
-                    <span>Reminders</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarContent>
-        </Sidebar>
-        <div className="flex flex-col flex-1">
-            <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
-                 <h1 className="font-semibold text-lg flex-1">{title}</h1>
-                 <div className="relative ml-auto flex-shrink-0">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                    type="search"
-                    placeholder="Search..."
-                    className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-                    />
-                </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                    <Button variant="secondary" size="icon" className="rounded-full">
-                        <User className="h-5 w-5" />
-                        <span className="sr-only">Toggle user menu</span>
-                    </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>Support</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>Logout</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </header>
-            <main className="flex-1 p-4 sm:p-6">
-              {children}
-            </main>
+              <Link
+                href="/patient/profile"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/profile") ? "bg-muted text-primary" : ""}`}
+              >
+                <Users className="h-4 w-4" />
+                My Profiles
+              </Link>
+              <Link
+                href="/patient/navigator"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/navigator") ? "bg-muted text-primary" : ""}`}
+              >
+                <Bot className="h-4 w-4" />
+                AI Health Navigator
+              </Link>
+              <Link
+                href="/patient/report-analyzer"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/report-analyzer") ? "bg-muted text-primary" : ""}`}
+              >
+                <FileCheck className="h-4 w-4" />
+                AI Report Analyzer
+              </Link>
+              <Link
+                href="/patient/find-provider"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/find-provider") ? "bg-muted text-primary" : ""}`}
+              >
+                <Search className="h-4 w-4" />
+                Find a Provider
+              </Link>
+              <Link
+                href="/patient/records"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/records") ? "bg-muted text-primary" : ""}`}
+              >
+                <FileText className="h-4 w-4" />
+                Medical Records
+              </Link>
+              <Link
+                href="/patient/reminders"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/reminders") ? "bg-muted text-primary" : ""}`}
+              >
+                <Bell className="h-4 w-4" />
+                Reminders
+              </Link>
+            </nav>
+          </div>
         </div>
       </div>
-    </SidebarProvider>
+      <div className="flex flex-col">
+        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="shrink-0 md:hidden"
+              >
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="flex flex-col">
+              <nav className="grid gap-2 text-lg font-medium">
+                <Link
+                  href="/"
+                  className="flex items-center gap-2 text-lg font-semibold mb-4"
+                >
+                  <Logo className="h-6 w-6 text-primary" />
+                  <span className="sr-only">Unified Health Hub</span>
+                </Link>
+                <Link
+                  href="/patient/dashboard"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/dashboard") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  Dashboard
+                </Link>
+                 <Link
+                  href="/patient/profile"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/profile") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <Users className="h-5 w-5" />
+                  My Profiles
+                </Link>
+                <Link
+                  href="/patient/navigator"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/navigator") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <Bot className="h-5 w-5" />
+                  AI Health Navigator
+                </Link>
+                 <Link
+                  href="/patient/report-analyzer"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/report-analyzer") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <FileCheck className="h-5 w-5" />
+                  AI Report Analyzer
+                </Link>
+                 <Link
+                  href="/patient/find-provider"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/find-provider") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <Search className="h-5 w-5" />
+                  Find a Provider
+                </Link>
+                <Link
+                  href="/patient/records"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/records") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <FileText className="h-5 w-5" />
+                  Medical Records
+                </Link>
+                <Link
+                  href="/patient/reminders"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/reminders") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <Bell className="h-5 w-5" />
+                  Reminders
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
+           <div className="w-full flex-1">
+             <h1 className="font-semibold text-lg">{title}</h1>
+           </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="icon" className="rounded-full">
+                <User className="h-5 w-5" />
+                <span className="sr-only">Toggle user menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </header>
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }

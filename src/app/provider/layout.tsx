@@ -8,21 +8,11 @@ import {
   BarChart2,
   Calendar,
   LayoutDashboard,
-  Search,
+  Menu,
   Users,
   User,
 } from "lucide-react";
 
-import {
-  Sidebar,
-  SidebarProvider,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarContent,
-  SidebarHeader,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
 import {
   DropdownMenu,
@@ -33,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const pageTitles: { [key: string]: string } = {
   "/provider/dashboard": "Dashboard",
@@ -56,106 +46,126 @@ export default function ProviderLayout({
   const title = pageTitles[pathname] || "Dashboard";
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full flex-col bg-muted/40">
-        <Sidebar>
-          <SidebarContent>
-            <SidebarHeader className="flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-2 font-semibold">
-                <Logo className="h-8 w-8 text-primary" />
-                <span className="text-lg">Unified Health Hub</span>
+     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+      <div className="hidden border-r bg-muted/40 md:block">
+        <div className="flex h-full max-h-screen flex-col gap-2">
+          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+            <Link href="/" className="flex items-center gap-2 font-semibold">
+              <Logo className="h-6 w-6 text-primary" />
+              <span className="">Unified Health Hub</span>
+            </Link>
+          </div>
+          <div className="flex-1">
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+               <Link
+                href="/provider/dashboard"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/provider/dashboard") ? "bg-muted text-primary" : ""}`}
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Dashboard
               </Link>
-              <SidebarTrigger />
-            </SidebarHeader>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/provider/dashboard"
-                  asChild
-                  isActive={isActive("/provider/dashboard")}
-                  tooltip="Dashboard"
-                >
-                  <Link href="/provider/dashboard">
-                    <LayoutDashboard />
-                    <span>Dashboard</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/provider/analytics"
-                  asChild
-                  isActive={isActive("/provider/analytics")}
-                  tooltip="Predictive Analytics"
-                >
-                  <Link href="/provider/analytics">
-                    <BarChart2 />
-                    <span>Predictive Analytics</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/provider/patients"
-                  asChild
-                  isActive={isActive("/provider/patients")}
-                   tooltip="Patients"
-                >
-                  <Link href="/provider/patients">
-                    <Users />
-                    <span>Patients</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton
-                  href="/provider/calendar"
-                  asChild
-                  isActive={isActive("/provider/calendar")}
-                   tooltip="Calendar"
-                >
-                  <Link href="/provider/calendar">
-                    <Calendar />
-                    <span>Calendar</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarContent>
-        </Sidebar>
-        <div className="flex flex-col flex-1">
-             <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
-                 <h1 className="font-semibold text-lg flex-1">{title}</h1>
-                 <div className="relative ml-auto flex-shrink-0">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                    type="search"
-                    placeholder="Search..."
-                    className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-                    />
-                </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                    <Button variant="secondary" size="icon" className="rounded-full">
-                        <User className="h-5 w-5" />
-                        <span className="sr-only">Toggle user menu</span>
-                    </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>Support</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>Logout</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </header>
-            <main className="flex-1 p-4 sm:p-6">
-              {children}
-            </main>
+              <Link
+                href="/provider/analytics"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/provider/analytics") ? "bg-muted text-primary" : ""}`}
+              >
+                <BarChart2 className="h-4 w-4" />
+                Predictive Analytics
+              </Link>
+              <Link
+                href="/provider/patients"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/provider/patients") ? "bg-muted text-primary" : ""}`}
+              >
+                <Users className="h-4 w-4" />
+                Patients
+              </Link>
+              <Link
+                href="/provider/calendar"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/provider/calendar") ? "bg-muted text-primary" : ""}`}
+              >
+                <Calendar className="h-4 w-4" />
+                Calendar
+              </Link>
+            </nav>
+          </div>
         </div>
       </div>
-    </SidebarProvider>
+      <div className="flex flex-col">
+        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="shrink-0 md:hidden"
+              >
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="flex flex-col">
+              <nav className="grid gap-2 text-lg font-medium">
+                <Link
+                  href="/"
+                  className="flex items-center gap-2 text-lg font-semibold mb-4"
+                >
+                  <Logo className="h-6 w-6 text-primary" />
+                  <span className="sr-only">Unified Health Hub</span>
+                </Link>
+                <Link
+                  href="/provider/dashboard"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/provider/dashboard") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  Dashboard
+                </Link>
+                 <Link
+                  href="/provider/analytics"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/provider/analytics") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <BarChart2 className="h-5 w-5" />
+                  Predictive Analytics
+                </Link>
+                <Link
+                  href="/provider/patients"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/provider/patients") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <Users className="h-5 w-5" />
+                  Patients
+                </Link>
+                <Link
+                  href="/provider/calendar"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/provider/calendar") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <Calendar className="h-5 w-5" />
+                  Calendar
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
+           <div className="w-full flex-1">
+             <h1 className="font-semibold text-lg">{title}</h1>
+           </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="icon" className="rounded-full">
+                <User className="h-5 w-5" />
+                <span className="sr-only">Toggle user menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </header>
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }
