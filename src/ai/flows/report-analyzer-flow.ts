@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -14,7 +15,7 @@ import {z} from 'genkit';
 const AnalyzeReportInputSchema = z.object({
   report: z
     .string()
-    .describe('The content of the medical report to be analyzed.'),
+    .describe('The content of the medical report to be analyzed, extracted from a file.'),
 });
 export type AnalyzeReportInput = z.infer<typeof AnalyzeReportInputSchema>;
 
@@ -37,10 +38,11 @@ const prompt = ai.definePrompt({
 
 You will identify key findings and potential concerns that the patient should discuss with their healthcare provider.
 
-Medical Report:
-{{{report}}}
+The following text was extracted from a user-uploaded medical report file. Analyze it and provide the output in the specified format.
 
-Analyze the report and provide the output in the specified format.`,
+Medical Report Content:
+{{{report}}}
+`,
 });
 
 const analyzeReportFlow = ai.defineFlow(

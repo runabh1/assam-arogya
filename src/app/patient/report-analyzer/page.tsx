@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Bot, Loader2, FileCheck2, AlertTriangle } from 'lucide-react';
+import { Bot, Loader2, FileCheck2, AlertTriangle, Upload } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -24,35 +24,55 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { analyzeReport } from '@/ai/flows/report-analyzer-flow';
 import type { AnalyzeReportOutput } from '@/ai/flows/report-analyzer-flow';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 
 const formSchema = z.object({
-  report: z
-    .string()
-    .min(50, { message: 'Please paste the report content (at least 50 characters).' }),
+  reportFile: z
+    .any()
+    .refine((files) => files?.length === 1, 'File is required.')
+    .refine((files) => files?.[0]?.size <= 5000000, `Max file size is 5MB.`)
+    .refine(
+      (files) => ['application/pdf', 'text/plain'].includes(files?.[0]?.type),
+      'Only .pdf and .txt files are accepted.'
+    ),
 });
 
 export default function ReportAnalyzerPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalyzeReportOutput | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      report: '',
+      reportFile: undefined,
     },
   });
+
+  const fileRef = form.register('reportFile');
+
+  const readFileAsText = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsText(file);
+    });
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     setResult(null);
     try {
-      const output = await analyzeReport(values);
+      const file = values.reportFile[0];
+      const reportContent = await readFileAsText(file);
+      
+      const output = await analyzeReport({ report: reportContent });
       setResult(output);
     } catch (error) {
       console.error(error);
@@ -75,23 +95,40 @@ export default function ReportAnalyzerPage() {
               <CardHeader>
                 <CardTitle>AI Report Analyzer</CardTitle>
                 <CardDescription>
-                  Paste the content of your medical report below. The AI will provide a simplified summary.
+                  Upload a medical report (.txt or .pdf). The AI will provide a simplified summary.
                   This is not a medical diagnosis. Always consult with a qualified healthcare professional.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <FormField
                   control={form.control}
-                  name="report"
+                  name="reportFile"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Report Content</FormLabel>
+                      <FormLabel>Medical Report File</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Paste the full text from your medical or lab report here..."
-                          rows={15}
-                          {...field}
-                        />
+                         <div className="relative">
+                            <Button asChild variant="outline" className="w-full justify-start font-normal text-muted-foreground">
+                                <div>
+                                    <Upload className="mr-2" />
+                                    {fileName || "Select a file..."}
+                                </div>
+                            </Button>
+                            <Input
+                                type="file"
+                                className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                                accept=".txt,.pdf"
+                                {...fileRef}
+                                onChange={(e) => {
+                                    field.onChange(e.target.files);
+                                    if (e.target.files && e.target.files[0]) {
+                                        setFileName(e.target.files[0].name);
+                                    } else {
+                                        setFileName(null);
+                                    }
+                                }}
+                            />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -99,7 +136,7 @@ export default function ReportAnalyzerPage() {
                 />
               </CardContent>
               <CardFooter>
-                <Button type="submit" disabled={loading}>
+                <Button type="submit" disabled={loading || !form.formState.isValid}>
                   {loading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
