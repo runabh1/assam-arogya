@@ -13,6 +13,7 @@ import {
   Search,
   Users,
   Bell,
+  User,
 } from "lucide-react";
 
 import {
@@ -23,10 +24,20 @@ import {
   SidebarMenuButton,
   SidebarContent,
   SidebarHeader,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
-import { DashboardHeader } from "@/components/dashboard-header";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const pageTitles: { [key: string]: string } = {
   "/patient/dashboard": "Dashboard",

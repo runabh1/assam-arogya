@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
-import { DashboardHeader } from "@/components/dashboard-header";
 import {
   DropdownMenu,
   DropdownMenuContent,
