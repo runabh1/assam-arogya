@@ -15,12 +15,12 @@ import {z} from 'genkit';
 const AnalyzeReportInputSchema = z.object({
   report: z
     .string()
-    .describe('The content of the medical report to be analyzed, extracted from a file.'),
+    .describe('The content of the medical report to be analyzed, extracted from a file. This could be for a human or a pet.'),
   photoDataUri: z
     .string()
     .optional()
     .describe(
-      "An optional photo of a medical report, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+      "An optional photo of a medical report for a human or a pet, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
 });
 export type AnalyzeReportInput = z.infer<typeof AnalyzeReportInputSchema>;
@@ -28,7 +28,7 @@ export type AnalyzeReportInput = z.infer<typeof AnalyzeReportInputSchema>;
 const AnalyzeReportOutputSchema = z.object({
   summary: z.string().describe('A simplified summary of the report.'),
   keyFindings: z.array(z.string()).describe('A list of key findings from the report.'),
-  potentialConcerns: z.array(z.string()).describe('A list of potential concerns or areas to discuss with a doctor.'),
+  potentialConcerns: z.array(z.string()).describe('A list of potential concerns or areas to discuss with a doctor or veterinarian.'),
 });
 export type AnalyzeReportOutput = z.infer<typeof AnalyzeReportOutputSchema>;
 
@@ -40,9 +40,9 @@ const prompt = ai.definePrompt({
   name: 'analyzeReportPrompt',
   input: {schema: AnalyzeReportInputSchema},
   output: {schema: AnalyzeReportOutputSchema},
-  prompt: `You are a helpful AI medical assistant. Your role is to analyze a medical report and provide a clear, simplified summary for a patient. Do not provide a diagnosis.
+  prompt: `You are a helpful AI medical assistant for both human and veterinary health. Your role is to analyze a medical report and provide a clear, simplified summary for a patient or pet owner. Do not provide a diagnosis.
 
-You will identify key findings and potential concerns that the patient should discuss with their healthcare provider.
+You will identify key findings and potential concerns that the user should discuss with their healthcare provider or veterinarian.
 
 The following text and/or image was extracted from a user-uploaded medical report file. Analyze it and provide the output in the specified format.
 
