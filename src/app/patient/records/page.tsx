@@ -1,19 +1,33 @@
 
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Download, FileText, Upload, Share2 } from 'lucide-react';
+import { Download, FileText, Upload, Share2, MoreVertical } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 
-const records = [
+const initialRecords = [
     { document: "Blood Test Results", date: "2024-07-15", type: "Lab Report", sharedWith: "Dr. Carter" },
     { document: "X-Ray: Left Knee", date: "2024-06-20", type: "Imaging", sharedWith: "Dr. Verma" },
     { document: "Buddy's Vaccination Certificate", date: "2024-05-01", type: "Veterinary", sharedWith: "Dr. Desai" },
@@ -21,6 +35,38 @@ const records = [
 ];
 
 export default function RecordsPage() {
+  const [records, setRecords] = useState(initialRecords);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
+
+  const handleUpload = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const newRecord = {
+        document: formData.get('documentName') as string,
+        date: new Date(formData.get('date') as string).toISOString().split('T')[0],
+        type: formData.get('type') as string,
+        sharedWith: 'Self'
+    };
+    const file = formData.get('file') as File;
+
+    if (!newRecord.document || !newRecord.date || !newRecord.type || !file || file.size === 0) {
+        toast({
+            variant: "destructive",
+            title: "Missing Information",
+            description: "Please fill out all fields and select a file to upload.",
+        });
+        return;
+    }
+
+    setRecords(prevRecords => [newRecord, ...prevRecords]);
+    toast({
+        title: "Record Uploaded",
+        description: `${newRecord.document} has been successfully added.`,
+    })
+    setIsDialogOpen(false);
+  }
+
   return (
     <>
       <main className="flex-1 md:gap-8">
@@ -30,10 +76,48 @@ export default function RecordsPage() {
                     <CardTitle>Medical Records</CardTitle>
                     <CardDescription>View, manage, and share your health records securely.</CardDescription>
                 </div>
-                <Button>
-                    <Upload className="mr-2 h-4 w-4" />
-                    Upload Record
-                </Button>
+                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <DialogTrigger asChild>
+                        <Button>
+                            <Upload className="mr-2 h-4 w-4" />
+                            Upload Record
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                         <form onSubmit={handleUpload}>
+                            <DialogHeader>
+                                <DialogTitle>Upload New Record</DialogTitle>
+                                <DialogDescription>
+                                    Add a new medical document to your records. Click save when you're done.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="documentName" className="text-right">Name</Label>
+                                    <Input id="documentName" name="documentName" className="col-span-3" placeholder="e.g., Annual Physical Exam" />
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="type" className="text-right">Type</Label>
+                                    <Input id="type" name="type" className="col-span-3" placeholder="e.g., Lab Report" />
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="date" className="text-right">Date</Label>
+                                    <Input id="date" name="date" type="date" className="col-span-3" />
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="file" className="text-right">File</Label>
+                                    <Input id="file" name="file" type="file" className="col-span-3" />
+                                </div>
+                            </div>
+                            <DialogFooter>
+                                <DialogClose asChild>
+                                    <Button type="button" variant="secondary">Cancel</Button>
+                                </DialogClose>
+                                <Button type="submit">Save Record</Button>
+                            </DialogFooter>
+                        </form>
+                    </DialogContent>
+                </Dialog>
             </CardHeader>
             <CardContent>
                 <Table>
@@ -61,7 +145,7 @@ export default function RecordsPage() {
                                         <DropdownMenuTrigger asChild>
                                             <Button variant="ghost" size="icon">
                                                 <span className="sr-only">More actions</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                                <MoreVertical className="h-4 w-4" />
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
