@@ -27,7 +27,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 
-const initialRecords = [
+type Record = {
+    document: string;
+    date: string;
+    type: string;
+    sharedWith: string;
+    file?: File;
+}
+
+const initialRecords: Record[] = [
     { document: "Blood Test Results", date: "2024-07-15", type: "Lab Report", sharedWith: "Dr. Carter" },
     { document: "X-Ray: Left Knee", date: "2024-06-20", type: "Imaging", sharedWith: "Dr. Verma" },
     { document: "Buddy's Vaccination Certificate", date: "2024-05-01", type: "Veterinary", sharedWith: "Dr. Desai" },
@@ -35,22 +43,16 @@ const initialRecords = [
 ];
 
 export default function RecordsPage() {
-  const [records, setRecords] = useState(initialRecords);
+  const [records, setRecords] = useState<Record[]>(initialRecords);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
 
   const handleUpload = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const newRecord = {
-        document: formData.get('documentName') as string,
-        date: new Date(formData.get('date') as string).toISOString().split('T')[0],
-        type: formData.get('type') as string,
-        sharedWith: 'Self'
-    };
     const file = formData.get('file') as File;
 
-    if (!newRecord.document || !newRecord.date || !newRecord.type || !file || file.size === 0) {
+    if (!formData.get('documentName') || !formData.get('date') || !formData.get('type') || !file || file.size === 0) {
         toast({
             variant: "destructive",
             title: "Missing Information",
@@ -58,6 +60,14 @@ export default function RecordsPage() {
         });
         return;
     }
+    
+    const newRecord: Record = {
+        document: formData.get('documentName') as string,
+        date: new Date(formData.get('date') as string).toISOString().split('T')[0],
+        type: formData.get('type') as string,
+        sharedWith: 'Self',
+        file: file,
+    };
 
     setRecords(prevRecords => [newRecord, ...prevRecords]);
     toast({
@@ -65,6 +75,26 @@ export default function RecordsPage() {
         description: `${newRecord.document} has been successfully added.`,
     })
     setIsDialogOpen(false);
+    (event.target as HTMLFormElement).reset();
+  }
+
+  const handleDownload = (file: File | undefined) => {
+    if (file) {
+        const url = URL.createObjectURL(file);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Download Failed",
+            description: "No file is available for this record.",
+        })
+    }
   }
 
   return (
@@ -149,7 +179,7 @@ export default function RecordsPage() {
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem><Download className="mr-2 h-4 w-4" /> Download</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => handleDownload(record.file)}><Download className="mr-2 h-4 w-4" /> Download</DropdownMenuItem>
                                             <DropdownMenuItem><Share2 className="mr-2 h-4 w-4" /> Share</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
