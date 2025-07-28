@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -27,7 +28,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { aiHealthNavigator } from "@/ai/flows/ai-health-navigator";
 import type { AiHealthNavigatorOutput } from "@/ai/flows/ai-health-navigator";
-import { DashboardHeader } from "@/components/dashboard-header";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
@@ -72,7 +72,6 @@ export default function AiHealthNavigatorPage() {
 
   return (
     <>
-      <DashboardHeader title="AI Health Navigator" />
       <main className="flex-1 p-4 sm:px-6 md:gap-8">
         <div className="max-w-2xl mx-auto">
           <Card>

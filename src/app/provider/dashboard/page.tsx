@@ -1,3 +1,4 @@
+
 'use client';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { DollarSign, Users, Activity, ArrowRight } from 'lucide-react';
@@ -20,7 +21,6 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { DashboardHeader } from '@/components/dashboard-header';
 
 const chartData = [
   { day: 'Mon', patients: 5 },
@@ -35,7 +35,6 @@ const chartData = [
 export default function ProviderDashboard() {
   return (
     <>
-      <DashboardHeader title="Provider Dashboard" />
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
           <Card>

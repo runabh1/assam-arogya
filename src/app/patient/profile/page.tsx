@@ -1,23 +1,117 @@
-import { DashboardHeader } from '@/components/dashboard-header';
+
+'use client';
+
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Dog, User } from 'lucide-react';
 
 export default function ProfilePage() {
   return (
     <>
-      <DashboardHeader title="My Profiles" />
-      <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-        <div className="flex items-center">
-          <h1 className="text-lg font-semibold md:text-2xl">My Profiles</h1>
-        </div>
-        <div
-          className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-        >
-          <div className="flex flex-col items-center gap-1 text-center">
-            <h3 className="text-2xl font-bold tracking-tight">
-              Coming Soon
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              The unified health profiles for you and your pets are being built.
-            </p>
+      <main className="flex-1 p-4 sm:px-6 md:gap-8">
+        <div className="grid gap-8">
+          {/* Human Profile */}
+          <Card>
+            <CardHeader className="flex flex-row items-center gap-4">
+              <Avatar className="h-16 w-16">
+                <AvatarImage src="https://placehold.co/100x100" />
+                <AvatarFallback>
+                  <User className="h-8 w-8" />
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <CardTitle className="text-3xl">Jane Doe</CardTitle>
+                <CardDescription>
+                  Manage your personal information and contact details.
+                </CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent className="grid gap-6 md:grid-cols-2">
+              <div className="grid gap-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input id="name" defaultValue="Jane Doe" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" defaultValue="jane.doe@example.com" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="phone">Phone</Label>
+                <Input id="phone" type="tel" defaultValue="+91 98765 43210" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="dob">Date of Birth</Label>
+                <Input id="dob" type="date" defaultValue="1990-05-15" />
+              </div>
+              <div className="md:col-span-2">
+                 <Button>Save Changes</Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Pet Profiles */}
+          <div className="grid gap-8 md:grid-cols-2">
+             <Card>
+              <CardHeader className="flex flex-row items-center gap-4">
+                <Avatar className="h-16 w-16">
+                   <AvatarFallback>
+                    <Dog className="h-8 w-8" />
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                    <CardTitle className="text-2xl">Buddy</CardTitle>
+                    <CardDescription>Golden Retriever</CardDescription>
+                </div>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="buddy-dob">Date of Birth</Label>
+                  <Input id="buddy-dob" type="date" defaultValue="2020-01-20" />
+                </div>
+                 <div className="grid gap-2">
+                  <Label htmlFor="buddy-notes">Health Notes</Label>
+                  <Input id="buddy-notes" defaultValue="Allergic to pollen" />
+                </div>
+                <div>
+                    <Button>Save Changes</Button>
+                </div>
+              </CardContent>
+            </Card>
+             <Card>
+              <CardHeader className="flex flex-row items-center gap-4">
+                <Avatar className="h-16 w-16">
+                   <AvatarFallback>
+                    <Dog className="h-8 w-8" />
+                  </AvatarFallback>
+                </Avatar>
+                 <div>
+                    <CardTitle className="text-2xl">Lucy</CardTitle>
+                    <CardDescription>Domestic Shorthair</CardDescription>
+                </div>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                 <div className="grid gap-2">
+                  <Label htmlFor="lucy-dob">Date of Birth</Label>
+                  <Input id="lucy-dob" type="date" defaultValue="2021-05-10" />
+                </div>
+                 <div className="grid gap-2">
+                  <Label htmlFor="lucy-notes">Health Notes</Label>
+                  <Input id="lucy-notes" defaultValue="Sensitive stomach" />
+                </div>
+                 <div>
+                    <Button>Save Changes</Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </main>
