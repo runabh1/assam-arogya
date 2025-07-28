@@ -18,7 +18,7 @@ const providers = [
 export default function FindProviderPage() {
   return (
     <>
-      <main className="flex-1 p-4 sm:px-6 md:gap-8">
+      <main className="flex-1 md:gap-8">
          <Card className="mb-8">
             <CardHeader>
                 <CardTitle>Find a Provider</CardTitle>

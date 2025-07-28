@@ -67,7 +67,7 @@ export default function ReportAnalyzerPage() {
   }
 
   return (
-    <main className="flex-1 p-4 sm:px-6 md:gap-8">
+    <main className="flex-1 md:gap-8">
       <div className="max-w-4xl mx-auto">
         <Card>
           <Form {...form}>

@@ -72,7 +72,7 @@ export default function AiHealthNavigatorPage() {
 
   return (
     <>
-      <main className="flex-1 p-4 sm:px-6 md:gap-8">
+      <main className="flex-1 md:gap-8">
         <div className="max-w-2xl mx-auto">
           <Card>
             <Form {...form}>

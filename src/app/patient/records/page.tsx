@@ -23,7 +23,7 @@ const records = [
 export default function RecordsPage() {
   return (
     <>
-      <main className="flex-1 p-4 sm:px-6 md:gap-8">
+      <main className="flex-1 md:gap-8">
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <div>

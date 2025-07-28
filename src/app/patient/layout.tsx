@@ -189,7 +189,7 @@ export default function PatientLayout({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </header>
-            <main className="flex-1 flex flex-col">
+            <main className="flex-1 p-4 sm:p-6">
               {children}
             </main>
         </div>

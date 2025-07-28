@@ -17,7 +17,7 @@ const reminders = [
 export default function RemindersPage() {
   return (
     <>
-      <main className="flex-1 p-4 sm:px-6 md:gap-8">
+      <main className="flex-1 md:gap-8">
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                  <div>

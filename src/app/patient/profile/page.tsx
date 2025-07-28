@@ -17,7 +17,7 @@ import { Dog, User } from 'lucide-react';
 export default function ProfilePage() {
   return (
     <>
-      <main className="flex-1 p-4 sm:px-6 md:gap-8">
+      <main className="flex-1 md:gap-8">
         <div className="grid gap-8">
           {/* Human Profile */}
           <Card>
