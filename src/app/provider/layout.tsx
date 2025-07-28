@@ -60,12 +60,11 @@ export default function ProviderLayout({
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
         <Sidebar>
           <SidebarContent>
-            <SidebarHeader className="flex items-center justify-between">
+            <SidebarHeader>
               <Link href="/" className="flex items-center gap-2 font-semibold">
                 <Logo className="h-8 w-8 text-primary" />
                 <span className="text-lg">Unified Health Hub</span>
               </Link>
-              <SidebarTrigger />
             </SidebarHeader>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -121,7 +120,7 @@ export default function ProviderLayout({
         </Sidebar>
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
              <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-                <SidebarTrigger className="md:hidden" />
+                <SidebarTrigger />
                  <h1 className="font-semibold text-lg">{title}</h1>
                  <div className="relative ml-auto flex-1 md:grow-0">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
