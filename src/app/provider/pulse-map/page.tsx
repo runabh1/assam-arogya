@@ -2,7 +2,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -42,14 +41,14 @@ type Alert = {
 const allAlerts: Alert[] = [
     { id: 1, district: 'Sivasagar', symptom: 'Mouth Ulcers', count: 6, severity: 'High', coordinates: { top: '42%', left: '82%' }, action: 'Check water quality' },
     { id: 2, district: 'Barpeta', symptom: 'Fever', count: 3, severity: 'Medium', coordinates: { top: '70%', left: '35%' }, action: 'Monitor trend' },
-    { id: 3, district: 'Kamrup', symptom: 'Chest Pain', count: 7, severity: 'High', coordinates: { top: '60%', left: '50%' }, action: 'Alert cardiologists' },
+    { id: 3, district: 'Guwahati', symptom: 'Chest Pain', count: 7, severity: 'High', coordinates: { top: '65%', left: '48%' }, action: 'Alert cardiologists' },
     { id: 4, district: 'Dibrugarh', symptom: 'Cough', count: 2, severity: 'Low', coordinates: { top: '30%', left: '88%' }, action: 'Continue monitoring' },
 ];
 
 const severityConfig = {
-    High: { color: 'bg-red-500', ring: 'ring-red-500/30', label: 'High' },
-    Medium: { color: 'bg-yellow-500', ring: 'ring-yellow-500/30', label: 'Medium' },
-    Low: { color: 'bg-green-500', ring: 'ring-green-500/30', label: 'Low' },
+    High: { color: 'bg-red-500', label: 'High' },
+    Medium: { color: 'bg-yellow-500', label: 'Medium' },
+    Low: { color: 'bg-green-500', label: 'Low' },
 }
 
 export default function PulseMapPage() {
@@ -124,13 +123,11 @@ export default function PulseMapPage() {
                 <CardDescription>Live visualization of symptom clusters across Assam.</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="relative w-full aspect-[16/9] bg-muted/20 rounded-lg overflow-hidden border">
-                   <Image
-                      src="https://placehold.co/900x500.png"
+                <div className="relative w-full aspect-video bg-muted/20 rounded-lg overflow-hidden border">
+                   <img
+                      src="https://storage.googleapis.com/static-assets-studio/assetz/assam-map.png"
                       alt="Map of Assam"
-                      fill
-                      className="object-cover"
-                      data-ai-hint="assam district map"
+                      className="absolute inset-0 w-full h-full object-cover"
                    />
                    {filteredAlerts.map((alert) => (
                      <Tooltip key={alert.id}>
