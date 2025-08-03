@@ -40,12 +40,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import {
   predictiveHealthAi,
-  PredictiveHealthInputSchema,
+  PredictiveHealthInput,
   PredictiveHealthOutput,
 } from '@/ai/flows/predictive-health-ai';
 import { cn } from '@/lib/utils';
-
-type FormData = z.infer<typeof PredictiveHealthInputSchema>;
 
 const readFileAsDataURI = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -109,7 +107,7 @@ export default function PredictiveHealthPage() {
         photoDataUri = await readFileAsDataURI(values.photoFile[0]);
       }
 
-      const input = {
+      const input: PredictiveHealthInput = {
         assessmentType: values.assessmentType,
         symptoms: values.symptoms,
         history: values.history,
@@ -333,6 +331,7 @@ export default function PredictiveHealthPage() {
                                 <Button className="w-full" variant="destructive">
                                     <Ambulance className="mr-2 h-4 w-4" /> Book Ambulance Now
                                 </Button>
+
                                 <Button className="w-full" variant="outline">
                                     <Phone className="mr-2 h-4 w-4" /> Call Emergency
                                 </Button>
