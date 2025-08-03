@@ -250,19 +250,19 @@ export default function AiHealthNavigatorPage() {
           <Card className="mt-8">
             <CardHeader className="flex flex-row items-center gap-2">
               <Bot className="h-6 w-6 text-primary" />
-              <CardTitle>Recommendation</CardTitle>
+              <CardTitle>{selectedLang === 'as-IN' ? 'পৰামৰ্শ' : 'Recommendation'}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <p className="text-sm text-muted-foreground">Recommended Specialist</p>
+                <p className="text-sm text-muted-foreground">{selectedLang === 'as-IN' ? 'পৰামৰ্শ দিয়া বিশেষজ্ঞ' : 'Recommended Specialist'}</p>
                 <p className="text-lg font-semibold">{result.specialist}</p>
               </div>
                <div>
-                <p className="text-sm text-muted-foreground">Reasoning</p>
+                <p className="text-sm text-muted-foreground">{selectedLang === 'as-IN' ? 'কাৰণ' : 'Reasoning'}</p>
                 <p>{result.reasoning}</p>
               </div>
                <div>
-                <p className="text-sm text-muted-foreground">Next Steps</p>
+                <p className="text-sm text-muted-foreground">{selectedLang === 'as-IN' ? 'পৰৱৰ্তী পদক্ষেপ' : 'Next Steps'}</p>
                 <p>{result.nextSteps}</p>
               </div>
             </CardContent>
