@@ -57,7 +57,7 @@ Assessment Type: {{{assessmentType}}}
 
 **IF Assessment Type is 'oralCancer':**
 - Symptoms provided: {{{symptoms}}}
-- Photo provided: {{#if photoDataUri}}Yes{{else}}No{{/if}}
+- Photo provided: {{{photoProvided}}}
 - Analyze symptoms like "gum bleeding", "white patch", "jaw swelling", etc.
 
 - **High Risk**: If multiple symptoms strongly correlate with oral cancer AND a photo is provided.
@@ -104,7 +104,10 @@ const predictiveHealthAiFlow = ai.defineFlow(
     outputSchema: PredictiveHealthOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt({
+      ...input,
+      photoProvided: input.photoDataUri ? 'Yes' : 'No',
+    });
     return output!;
   }
 );
