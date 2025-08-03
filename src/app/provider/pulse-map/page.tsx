@@ -42,13 +42,13 @@ type Alert = {
 
 const allAlerts: Alert[] = [
     { id: 1, district: 'Sivasagar', symptom: 'Mouth Ulcers', count: 6, severity: 'High', coordinates: { top: '42%', left: '82%' }, action: 'Check water quality' },
-    { id: 2, district: 'Barpeta', symptom: 'Fever', count: 3, severity: 'Medium', coordinates: { top: '70%', left: '35%' }, action: 'Monitor trend' },
-    { id: 3, district: 'Guwahati', symptom: 'Chest Pain', count: 7, severity: 'High', coordinates: { top: '65%', left: '48%' }, action: 'Alert cardiologists' },
+ { id: 2, district: 'Barpeta', symptom: 'Fever', count: 3, severity: 'Medium', coordinates: { top: '70%', left: '35%' }, action: 'Monitor trend' },
+ { id: 3, district: 'Guwahati', symptom: 'Chest Pain', count: 7, severity: 'High', coordinates: { top: '65%', left: '48%' }, action: 'Alert cardiologists' },
     { id: 4, district: 'Dibrugarh', symptom: 'Cough', count: 2, severity: 'Normal', coordinates: { top: '30%', left: '88%' }, action: 'Continue monitoring' },
 ];
 
 const severityConfig: Record<AlertSeverity, { color: string; label: string }> = {
-    High: { color: 'bg-red-500', label: 'High' },
+ High: { color: 'bg-red-500', label: 'High' },
     Medium: { color: 'bg-yellow-500', label: 'Medium' },
     Normal: { color: 'bg-green-500', label: 'Normal' },
 }
@@ -56,7 +56,7 @@ const severityConfig: Record<AlertSeverity, { color: string; label: string }> = 
 // A simplified SVG map of Assam for reliable rendering
 const AssamMap = () => (
   <svg viewBox="0 0 1024 597" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-    <path d="M414.18,529.74L351.46,552.48L321.14,596.25L273.43,584.95L257.6,554.43L184.44,557.55L161.4,541.65L148.69,514.25L106.13,495.23L83.09,451.46L0,422.1L15.82,398.96L48.24,390.09L64.07,363.67L97.51,353.86L134.03,322.34L154.2,284.66L185.42,261.52L225.06,231.2L241.87,204.78L270.31,211.96L301.53,243.48L339.16,252.35L363.02,233.15L390.3,230.03L435.84,188.21L471.36,183.29L530.96,148.69L560.28,111.01L592.7,126.83L613.84,152.83L655.33,161.7L694,142.5L730.52,111.01L795.3,101.2L835.91,66.6L873.54,49.83L934.22,46.71L967.66,0L1023.12,24.16L994.67,61.84L975.56,91.16L935.2,95.11L890.63,126.83L868.75,170.6L837.52,194.75L810.25,243.48L792.18,284.66L776.35,317.1L745.12,345.54L722.08,380.14L700.2,406.14L672.92,429.28L636.4,432.4L582.89,450.48L530.96,482.01L463.5,502.41L414.18,529.74Z" fill="#E8F5E9" stroke="#388E3C" strokeWidth="2"/>
+ <path d="M414.18,529.74L351.46,552.48L321.14,596.25L273.43,584.95L257.6,554.43L184.44,557.55L161.4,541.65L148.69,514.25L106.13,495.23L83.09,451.46L0,422.1L15.82,398.96L48.24,390.09L64.07,363.67L97.51,353.86L134.03,322.34L154.2,284.66L185.42,261.52L225.06,231.2L241.87,204.78L270.31,211.96L301.53,243.48L339.16,252.35L363.02,233.15L390.3,230.03L435.84,188.21L471.36,183.29L530.96,148.69L560.28,111.01L592.7,126.83L613.84,152.83L655.33,161.7L694,142.5L730.52,111.01L795.3,101.2L835.91,66.6L873.54,49.83L934.22,46.71L967.66,0L1023.12,24.16L994.67,61.84L975.56,91.16L935.2,95.11L890.63,126.83L868.75,170.6L837.52,194.75L810.25,243.48L792.18,284.66L776.35,317.1L745.12,345.54L722.08,380.14L700.2,406.14L672.92,429.28L636.4,432.4L582.89,450.48L530.96,482.01L463.5,502.41L414.18,529.74Z" fill="#E8F5E9" stroke="#388E3C" strokeWidth="2"/>
   </svg>
 );
 
@@ -133,28 +133,47 @@ export default function PulseMapPage() {
                 <CardDescription>Live visualization of symptom clusters across Assam.</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="relative w-full aspect-[1024/597] bg-muted/20 rounded-lg overflow-hidden border">
-                   <AssamMap />
-                   {filteredAlerts.map((alert) => (
-                     <Tooltip key={alert.id}>
-                       <TooltipTrigger asChild>
-                         <div className="absolute z-10" style={{ top: alert.coordinates.top, left: alert.coordinates.left, transform: 'translate(-50%, -50%)' }}>
-                            <div className="relative group flex items-center justify-center">
-                                <div className={cn("h-3 w-3 rounded-full animate-pulse", severityConfig[alert.severity].color)}></div>
-                                <div className={cn("absolute h-5 w-5 rounded-full animate-ping", severityConfig[alert.severity].color)}></div>
-                            </div>
-                         </div>
-                       </TooltipTrigger>
-                       <TooltipContent>
-                           <div className="text-sm">
-                                <p className="font-bold">{alert.district}</p>
-                                <p><span className="font-semibold">Symptom:</span> {alert.symptom}</p>
-                                <p><span className="font-semibold">Reports:</span> {alert.count}</p>
-                                <p><span className="font-semibold">Action:</span> {alert.action}</p>
-                           </div>
-                       </TooltipContent>
-                     </Tooltip>
-                   ))}
+                <div className="relative w-full aspect-[1024/597] rounded-lg overflow-hidden border">
+                    {/* Replace SVG with Google Maps iframe */}
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        loading="lazy"
+                        allowFullScreen
+                        src={`https://www.google.com/maps/embed/v1/view?key=AIzaSyAvQgbf70SiCJCGAjtzjnql1zqrKDtRF00&center=26.2006,92.9376&zoom=7&region=IN`}
+                    ></iframe>
+
+                    {/* You can add markers or other overlays here using Google Maps JavaScript API if needed,
+                        but for a simple iframe, you might not have granular control over highlighting districts
+                        based on the `allAlerts` data directly within the iframe.
+                        A more complex implementation would involve using the Google Maps JavaScript API
+                        to dynamically add markers or highlight areas based on your data.
+                        For this example, we'll keep the markers from the previous SVG implementation
+                        positioned absolutely over the iframe as a visual indicator,
+                        understanding that their positioning might not be perfectly accurate
+                        relative to the dynamic map content.
+                    */}
+                    {filteredAlerts.map((alert) => (
+                        <Tooltip key={alert.id}>
+                            <TooltipTrigger asChild>
+                                <div className="absolute z-10" style={{ top: alert.coordinates.top, left: alert.coordinates.left, transform: 'translate(-50%, -50%)' }}>
+                                    <div className="relative group flex items-center justify-center">
+                                        <div className={cn("h-3 w-3 rounded-full animate-pulse", severityConfig[alert.severity].color)}></div>
+                                        <div className={cn("absolute h-5 w-5 rounded-full animate-ping", severityConfig[alert.severity].color)}></div>
+                                    </div>
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <div className="text-sm">
+                                    <p className="font-bold">{alert.district}</p>
+                                    <p><span className="font-semibold">Symptom:</span> {alert.symptom}</p>
+                                    <p><span className="font-semibold">Reports:</span> {alert.count}</p>
+                                    <p><span className="font-semibold">Action:</span> {alert.action}</p>
+                                </div>
+                            </TooltipContent>
+                        </Tooltip>
+                    ))}
                 </div>
             </CardContent>
         </Card>
