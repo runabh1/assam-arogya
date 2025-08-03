@@ -1,7 +1,7 @@
 
 'use client';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import { DollarSign, Users, Activity, ArrowRight } from 'lucide-react';
+import { DollarSign, Users, Activity, ArrowRight, Map, Siren } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const chartData = [
   { day: 'Mon', patients: 5 },
@@ -65,25 +66,29 @@ export default function ProviderDashboard() {
               </p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Avg. Consultation Time</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
+          <Card className="lg:col-span-2 bg-primary text-primary-foreground">
+            <CardHeader className="pb-2 flex-row items-center justify-between">
+                <CardTitle className="text-xl font-bold text-primary-foreground">Arogya PulseMap™</CardTitle>
+                 <Map className="h-6 w-6 text-primary-foreground/80" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">18m 30s</div>
-              <p className="text-xs text-muted-foreground">-2.1% from last week</p>
-            </CardContent>
-          </Card>
-           <Card className="bg-primary text-primary-foreground">
-            <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-primary-foreground/80">Predictive Analytics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm mb-4">Forecast future demand for services and optimize resources.</p>
+              <div className="space-y-2 text-sm mb-4">
+                 <Alert variant="destructive" className="bg-red-900/50 border-red-400 text-white p-2">
+                    <Siren className="h-4 w-4" />
+                    <AlertDescription>
+                        <span className="font-bold">Nalbari:</span> 32% spike in fatigue symptoms.
+                    </AlertDescription>
+                 </Alert>
+                  <Alert variant="destructive" className="bg-yellow-900/50 border-yellow-400 text-white p-2">
+                    <Siren className="h-4 w-4" />
+                    <AlertDescription>
+                        <span className="font-bold">Sivasagar:</span> 5 new ulcer cases reported.
+                    </AlertDescription>
+                 </Alert>
+              </div>
               <Button variant="secondary" asChild>
-                <Link href="/provider/analytics">
-                  View Analytics <ArrowRight className="ml-2 h-4 w-4" />
+                <Link href="/provider/pulse-map">
+                  Launch Radar <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </CardContent>

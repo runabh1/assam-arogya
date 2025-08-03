@@ -11,6 +11,7 @@ import {
   Menu,
   Users,
   User,
+  Map,
 } from "lucide-react";
 
 import { Logo } from "@/components/logo";
@@ -30,6 +31,7 @@ const pageTitles: { [key: string]: string } = {
   "/provider/analytics": "Predictive Analytics",
   "/provider/patients": "Patient Management",
   "/provider/calendar": "Calendar",
+  "/provider/pulse-map": "Arogya PulseMap™",
 };
 
 export default function ProviderLayout({
@@ -63,6 +65,13 @@ export default function ProviderLayout({
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Dashboard
+              </Link>
+              <Link
+                href="/provider/pulse-map"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/provider/pulse-map") ? "bg-muted text-primary" : ""}`}
+              >
+                <Map className="h-4 w-4" />
+                PulseMap
               </Link>
               <Link
                 href="/provider/analytics"
@@ -117,6 +126,13 @@ export default function ProviderLayout({
                 >
                   <LayoutDashboard className="h-5 w-5" />
                   Dashboard
+                </Link>
+                <Link
+                  href="/provider/pulse-map"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/provider/pulse-map") ? "bg-muted text-foreground" : ""}`}
+                >
+                  <Map className="h-5 w-5" />
+                  PulseMap
                 </Link>
                  <Link
                   href="/provider/analytics"
