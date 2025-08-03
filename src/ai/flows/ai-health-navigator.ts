@@ -21,9 +21,15 @@ const AiHealthNavigatorInputSchema = z.object({
 export type AiHealthNavigatorInput = z.infer<typeof AiHealthNavigatorInputSchema>;
 
 const AiHealthNavigatorOutputSchema = z.object({
-  suggestions: z
+  specialist: z
     .string()
-    .describe('Suggestions for available appointments with relevant specialists (for humans) or veterinarians (for domestic animals).'),
+    .describe('The type of specialist recommended (e.g., Cardiologist, Dermatologist, Veterinarian).'),
+  reasoning: z
+    .string()
+    .describe('A brief explanation for why this specialist is recommended based on the symptoms.'),
+  nextSteps: z
+    .string()
+    .describe('Suggested next steps for the user, such as booking an appointment.'),
 });
 export type AiHealthNavigatorOutput = z.infer<typeof AiHealthNavigatorOutputSchema>;
 
@@ -35,12 +41,13 @@ const prompt = ai.definePrompt({
   name: 'aiHealthNavigatorPrompt',
   input: {schema: AiHealthNavigatorInputSchema},
   output: {schema: AiHealthNavigatorOutputSchema},
-  prompt: `You are an AI health navigator for both humans and domestic animals. A user will describe symptoms and their location, and you will suggest available appointments with relevant specialists (for humans) or veterinarians (for domestic animals).
+  prompt: `You are an AI health navigator for both humans and domestic animals. A user will describe symptoms and their location. Your task is to identify the most relevant medical specialist (for humans) or veterinarian (for domestic animals) and suggest next steps.
 
 Symptoms: {{{symptoms}}}
 Location: {{{location}}}
 
-Suggestions:`,
+Based on the symptoms, determine the specialist, provide a brief reasoning, and suggest the next appropriate action. For example, if symptoms point to a heart issue, suggest a "Cardiologist". If it's a skin issue, suggest a "Dermatologist". If it's for an animal, suggest a "Veterinarian".
+`,
 });
 
 const aiHealthNavigatorFlow = ai.defineFlow(

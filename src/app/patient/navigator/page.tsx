@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Bot, Loader2 } from "lucide-react";
+import { Bot, Loader2, Mic } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -71,6 +71,14 @@ export default function AiHealthNavigatorPage() {
     }
   }
 
+  const handleMicClick = () => {
+    // Placeholder for speech-to-text integration
+    toast({
+        title: "Voice input coming soon!",
+        description: "This feature will allow you to record symptoms in English or Assamese."
+    })
+  }
+
   return (
     <>
       <main className="flex-1 md:gap-8">
@@ -81,7 +89,7 @@ export default function AiHealthNavigatorPage() {
                 <CardHeader>
                   <CardTitle>Symptom Checker</CardTitle>
                   <CardDescription>
-                    Describe symptoms for yourself or any domestic animal, and our AI will suggest relevant specialists. This is not a medical diagnosis.
+                    Describe symptoms for yourself or any domestic animal (in English or Assamese), and our AI will suggest a relevant specialist. This is not a medical diagnosis.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -92,11 +100,17 @@ export default function AiHealthNavigatorPage() {
                       <FormItem>
                         <FormLabel>Symptoms</FormLabel>
                         <FormControl>
-                          <Textarea
-                            placeholder="e.g., 'Persistent dry cough and mild fever.' or 'My horse has been limping on its front left leg.'"
-                            rows={5}
-                            {...field}
-                          />
+                          <div className="relative">
+                            <Textarea
+                              placeholder="e.g., 'Persistent dry cough and mild fever.' or 'My horse has been limping on its front left leg.'"
+                              rows={5}
+                              {...field}
+                            />
+                            <Button type="button" size="icon" variant="ghost" className="absolute bottom-2 right-2" onClick={handleMicClick}>
+                                <Mic className="h-5 w-5" />
+                                <span className="sr-only">Record symptoms</span>
+                            </Button>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -139,7 +153,8 @@ export default function AiHealthNavigatorPage() {
                     <CardTitle>AI is thinking...</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-4 animate-pulse">
+                        <div className="h-4 bg-muted rounded w-1/4 mb-4"></div>
                         <div className="h-4 bg-muted rounded w-3/4"></div>
                         <div className="h-4 bg-muted rounded w-full"></div>
                         <div className="h-4 bg-muted rounded w-1/2"></div>
@@ -152,14 +167,25 @@ export default function AiHealthNavigatorPage() {
             <Card className="mt-8">
               <CardHeader className="flex flex-row items-center gap-2">
                 <Bot className="h-6 w-6 text-primary" />
-                <CardTitle>Appointment Suggestions</CardTitle>
+                <CardTitle>Recommendation</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="whitespace-pre-wrap">{result.suggestions}</p>
+              <CardContent className="space-y-4">
+                <div>
+                  <p className="text-sm text-muted-foreground">Recommended Specialist</p>
+                  <p className="text-lg font-semibold">{result.specialist}</p>
+                </div>
+                 <div>
+                  <p className="text-sm text-muted-foreground">Reasoning</p>
+                  <p>{result.reasoning}</p>
+                </div>
+                 <div>
+                  <p className="text-sm text-muted-foreground">Next Steps</p>
+                  <p>{result.nextSteps}</p>
+                </div>
               </CardContent>
               <CardFooter>
                 <Button asChild>
-                  <Link href="/patient/find-provider">Book an Appointment</Link>
+                  <Link href="/patient/find-provider">Find a Provider</Link>
                 </Button>
               </CardFooter>
             </Card>
