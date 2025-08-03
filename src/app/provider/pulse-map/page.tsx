@@ -2,11 +2,10 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { AlertCircle, Bell, Pin, Send, Siren } from 'lucide-react';
+import { Bell, Send, Siren } from 'lucide-react';
 
 const mockAlerts = [
     { district: 'Nalbari', symptom: 'fatigue', increase: '32%', severity: 'High', coordinates: { top: '55%', left: '38%' } },
@@ -55,10 +54,13 @@ const AssamMapSVG = () => (
 	c1.1,0.6,1.8,1.8,1.8,3v10.9c0,1.1,0.7,2.1,1.7,2.6l3.7,1.8c1.2,0.6,2,1.9,2,3.3v10.7c0,1.6,0.8,3.1,2.2,3.8l2.7,1.3
 	c1.2,0.6,1.9,1.8,1.9,3.1v10.9c0,1.3,0.6,2.5,1.7,3.1l4.3,2.3c1.1,0.6,1.8,1.8,1.8,3l0.4,10.9c0.1,1.3,1.1,2.3,2.4,2.3h4.3
 	c0.6,0,1.2-0.2,1.6-0.6l12.4-10c0.9-0.7,1.4-1.8,1.4-2.9l-0.4-10.9c-0.1-1.8,1-3.4,2.7-4l4.7-1.7c1.1-0.4,1.9-1.3,2.1-2.4l1.5-11.1
-	c0.2-1.4-0.6-2.8-1.8-3.4l-4.9-2.6c-1.3-0.7-2.2-2.1-2.2-3.6l-0.2-11c0-1.6,0.9-3.1,2.3-3.8l4-2c1.2-0.6,2-1.8,2-3.1l-0.4-10.9
+	c0.2-1.4-0.6-2.8-1.8-3.4l-4.9-2.6c-1.3-0.7-2.2-2.1-2.2-3.6
+	l-0.2-11c0-1.6,0.9-3.1,2.3-3.8l4-2c1.2-0.6,2-1.8,2-3.1l-0.4-10.9
 	c-0.1-1.8,1-3.4,2.7-4l4.7-1.7c1.1-0.4,1.9-1.3,2.1-2.4l1.5-11.1c0.2-1.4-0.6-2.8-1.8-3.4l-4.9-2.6c-1.3-0.7-2.2-2.1-2.2-3.6
-	l-0.2-11c0-1.6,0.9-3.1,2.3-3.8l4-2c1.2-0.6,2-1.8,2-3.1l-0.4-10.9c-0.1-1.8,1-3.4,2.7-4l4.7-1.7c1.1-0.4,1.9-1.3,2.1-2.4l1.5-11.1
-	c0.2-1.4-0.6-2.8-1.8-3.4l-4.9-2.6c-1.3-0.7-2.2-2.1-2.2-3.6l-0.2-11c0-1.6,0.9-3.1,2.3-3.8l4-2c1.2-0.6,2-1.8,2-3.1l-0.4-10.9
+	l-0.2-11c0-1.6,0.9-3.1,2.3-3.8l4-2c1.2-0.6,2-1.8,2-3.1l-0.4-10.9
+	c-0.1-1.8,1-3.4,2.7-4l4.7-1.7c1.1-0.4,1.9-1.3,2.1-2.4l1.5-11.1
+	c0.2-1.4-0.6-2.8-1.8-3.4l-4.9-2.6c-1.3-0.7-2.2-2.1-2.2-3.6
+	l-0.2-11c0-1.6,0.9-3.1,2.3-3.8l4-2c1.2-0.6,2-1.8,2-3.1l-0.4-10.9
 	c-0.1-1.8,1-3.4,2.7-4l4.7-1.7c1.1-0.4,1.9-1.3,2.1-2.4l1.5-11.1c0.2-1.4-0.6-2.8-1.8-3.4l-4.9-2.6c-1.3-0.7-2.2-2.1-2.2-3.6
 	l-0.2-11c0-1.6,0.9-3.1,2.3-3.8l4-2c1.2-0.6,2-1.8,2-3.1l0.2-10.9c0-1.8,1.2-3.3,2.9-3.8l4.7-1.3c1.4-0.4,2.7-1.4,3.3-2.7
 	l2.6-5.1c0.8-1.5,2.4-2.5,4.2-2.5l10.7-0.2c2.1-0.1,4-1.3,4.9-3.2l2.8-5.9c0.8-1.6,2.3-2.7,4.1-2.9l10.9-1.1
@@ -133,7 +135,7 @@ export default function PulseMapPage() {
                     </CardHeader>
                     <CardContent>
                         <div 
-                            className="relative w-full aspect-[16/10] bg-muted/30 rounded-lg overflow-hidden"
+                            className="relative w-full aspect-video bg-muted/30 rounded-lg overflow-hidden"
                         >
                            <div className="absolute inset-0">
                                 <AssamMapSVG />
