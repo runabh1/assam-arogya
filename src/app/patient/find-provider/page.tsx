@@ -11,11 +11,19 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Stethoscope, MapPin } from 'lucide-react';
 
 const allProviders = [
-    { name: 'Dr. Emily Carter', specialty: 'Cardiology', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
-    { name: 'Dr. Rahul Sharma', specialty: 'Dermatology', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
-    { name: 'Dr. Priya Desai (Vet)', specialty: 'Veterinary', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
-    { name: 'Dr. Alok Verma', specialty: 'Orthopedics', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
     { name: 'Dr. Anjali Rao', specialty: 'General Physician', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. Emily Carter', specialty: 'Cardiology', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. B. C. Kalita', specialty: 'Cardiology', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. Rahul Sharma', specialty: 'Dermatology', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. Alok Verma', specialty: 'Orthopedics', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. S. K. Dutta', specialty: 'Orthopedics', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. J. C. Medhi', specialty: 'Pediatrics', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. R. K. Das', specialty: 'Pediatrics', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. Dipmoni Kakati', specialty: 'Neurology', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. G. K. Handique', specialty: 'Neurology', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. M. Ahmed', specialty: 'ENT', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. B. K. Agarwala', specialty: 'Gastroenterology', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. Priya Desai (Vet)', specialty: 'Veterinary', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
 ];
 
 function FindProviderComponent() {
@@ -27,6 +35,9 @@ function FindProviderComponent() {
         const specialtyLower = specialtyParam.toLowerCase();
         if (specialtyLower === 'general') {
             return p.specialty.toLowerCase().includes('general physician');
+        }
+        if (specialtyLower === 'ent') {
+            return p.specialty.toLowerCase().includes('ent');
         }
         return p.specialty.toLowerCase().includes(specialtyLower)
     })
@@ -51,8 +62,12 @@ function FindProviderComponent() {
                           <SelectItem value="general physician">General Physician</SelectItem>
                           <SelectItem value="cardiology">Cardiology</SelectItem>
                           <SelectItem value="dermatology">Dermatology</SelectItem>
-                          <SelectItem value="veterinary">Veterinary</SelectItem>
                           <SelectItem value="orthopedics">Orthopedics</SelectItem>
+                          <SelectItem value="pediatrics">Pediatrics</SelectItem>
+                          <SelectItem value="neurology">Neurology</SelectItem>
+                          <SelectItem value="ent">ENT</SelectItem>
+                          <SelectItem value="gastroenterology">Gastroenterology</SelectItem>
+                          <SelectItem value="veterinary">Veterinary</SelectItem>
                       </SelectContent>
                   </Select>
                   <Button type="submit">Search</Button>
