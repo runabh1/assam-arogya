@@ -267,9 +267,11 @@ export default function AiHealthNavigatorPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button asChild>
-                <Link href="/patient/find-provider">Find a Provider</Link>
-              </Button>
+                <Button asChild>
+                  <Link href={`/patient/find-provider?specialty=${encodeURIComponent(result.specialist.split(' ')[0])}`}>
+                    Find a Provider
+                  </Link>
+                </Button>
             </CardFooter>
           </Card>
         )}
