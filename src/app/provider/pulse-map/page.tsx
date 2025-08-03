@@ -80,13 +80,12 @@ export default function PulseMapPage() {
                         <CardDescription>Live visualization of symptom clusters across Assam.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="relative w-full aspect-[16/10] bg-muted/30 rounded-lg">
+                        <div className="relative w-full aspect-[16/10] bg-muted/30 rounded-lg overflow-hidden">
                            <Image
                             src="https://placehold.co/800x500.png"
-                            layout="fill"
-                            objectFit="cover"
+                            fill
                             alt="Map of Assam"
-                            className="opacity-20"
+                            className="object-cover opacity-20"
                             data-ai-hint="assam map"
                            />
                            {mockAlerts.map((alert, index) => (
