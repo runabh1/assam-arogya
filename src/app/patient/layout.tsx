@@ -16,6 +16,7 @@ import {
   User,
   Beaker,
   ShieldCheck,
+  GitCommitVertical,
 } from "lucide-react";
 
 import {
@@ -45,6 +46,7 @@ const pageTitles: { [key: string]: string } = {
   "/patient/reminders": "Health Reminders",
   "/patient/book-test": "Book a Diagnostic Test",
   "/patient/predictive-health": "Predictive Health",
+  "/patient/genome-guardian": "Genome Guardian",
 };
 
 export default function PatientLayout({
@@ -120,6 +122,17 @@ export default function PatientLayout({
               >
                 <ShieldCheck className="h-4 w-4" />
                 Predictive Health
+              </Link>
+               <Link
+                href="/patient/genome-guardian"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/genome-guardian")
+                    ? "bg-muted text-primary"
+                    : ""
+                }`}
+              >
+                <GitCommitVertical className="h-4 w-4" />
+                Genome Guardian
               </Link>
               <Link
                 href="/patient/find-provider"
@@ -239,6 +252,17 @@ export default function PatientLayout({
                 >
                   <ShieldCheck className="h-5 w-5" />
                   Predictive Health
+                </Link>
+                <Link
+                  href="/patient/genome-guardian"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/genome-guardian")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
+                >
+                  <GitCommitVertical className="h-5 w-5" />
+                  Genome Guardian
                 </Link>
                 <Link
                   href="/patient/find-provider"
