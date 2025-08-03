@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,10 +40,20 @@ const formSchema = z.object({
     .min(2, { message: "Please enter a valid location." }),
 });
 
+// Extend window type for SpeechRecognition
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
 export default function AiHealthNavigatorPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AiHealthNavigatorOutput | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
   const { toast } = useToast();
+  const recognitionRef = useRef<any>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,6 +62,37 @@ export default function AiHealthNavigatorPage() {
       location: "",
     },
   });
+  
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.lang = 'en-US'; // Can be changed, e.g. 'as-IN' for Assamese
+      recognitionRef.current.interimResults = false;
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        form.setValue("symptoms", form.getValues("symptoms") + transcript);
+        setIsRecording(false);
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error("Speech recognition error", event.error);
+        toast({
+            variant: "destructive",
+            title: "Speech Recognition Error",
+            description: `An error occurred: ${event.error}. Please ensure you have given microphone permissions.`,
+        });
+        setIsRecording(false);
+      };
+      
+      recognitionRef.current.onend = () => {
+        setIsRecording(false);
+      };
+    }
+  }, [form, toast]);
+
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
@@ -72,11 +113,26 @@ export default function AiHealthNavigatorPage() {
   }
 
   const handleMicClick = () => {
-    // Placeholder for speech-to-text integration
-    toast({
-        title: "Voice input coming soon!",
-        description: "This feature will allow you to record symptoms in English or Assamese."
-    })
+    if (!recognitionRef.current) {
+        toast({
+            variant: "destructive",
+            title: "Browser Not Supported",
+            description: "Your browser does not support voice recognition."
+        });
+        return;
+    }
+    
+    if (isRecording) {
+      recognitionRef.current.stop();
+      setIsRecording(false);
+    } else {
+      recognitionRef.current.start();
+      setIsRecording(true);
+      toast({
+        title: "Listening...",
+        description: "Speak your symptoms in English or Assamese."
+      })
+    }
   }
 
   return (
@@ -106,9 +162,9 @@ export default function AiHealthNavigatorPage() {
                               rows={5}
                               {...field}
                             />
-                            <Button type="button" size="icon" variant="ghost" className="absolute bottom-2 right-2" onClick={handleMicClick}>
-                                <Mic className="h-5 w-5" />
-                                <span className="sr-only">Record symptoms</span>
+                            <Button type="button" size="icon" variant={isRecording ? 'destructive' : 'ghost'} className="absolute bottom-2 right-2" onClick={handleMicClick}>
+                                <Mic className={`h-5 w-5 ${isRecording ? 'animate-pulse' : ''}`} />
+                                <span className="sr-only">{isRecording ? "Stop recording" : "Record symptoms"}</span>
                             </Button>
                           </div>
                         </FormControl>
