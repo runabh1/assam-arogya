@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import {
   GitCommitVertical,
   Loader2,
@@ -50,11 +51,23 @@ import {
   genomeGuardian,
   GenomeGuardianInput,
   GenomeGuardianOutput,
-  GenomeGuardianInputSchema,
 } from '@/ai/flows/genome-guardian-flow';
 
-// We have to redefine the schema here for the form, because we can't export the object from the server file.
-const formSchema = GenomeGuardianInputSchema;
+const formSchema = z.object({
+  name: z.string().min(1, 'Name is required.'),
+  age: z.coerce.number().min(1, 'Age is required.'),
+  gender: z.enum(['Male', 'Female', 'Other']),
+  lifestyle: z.object({
+    smoking: z.boolean(),
+    alcohol: z.boolean(),
+    exercise: z.enum(['None', 'Light', 'Moderate', 'Heavy']),
+    diet: z.enum(['Healthy', 'Balanced', 'Unhealthy']),
+  }),
+  existingConditions: z.string().optional(),
+  familyHistory: z.string().min(1, 'Family history is required.'),
+  location: z.string().min(1, 'Location is required.'),
+  symptoms: z.string().optional(),
+});
 
 export default function GenomeGuardianPage() {
   const [loading, setLoading] = useState(false);
