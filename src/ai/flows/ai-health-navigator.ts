@@ -24,7 +24,7 @@ export type AiHealthNavigatorInput = z.infer<typeof AiHealthNavigatorInputSchema
 const AiHealthNavigatorOutputSchema = z.object({
   specialist: z
     .string()
-    .describe('The type of specialist recommended (e.g., Cardiologist, Dermatologist, Veterinarian).'),
+    .describe('The type of specialist recommended (e.g., Cardiologist, Dermatologist, Veterinarian). This MUST always be in English.'),
   reasoning: z
     .string()
     .describe('A brief explanation for why this specialist is recommended based on the symptoms.'),
@@ -42,15 +42,18 @@ const prompt = ai.definePrompt({
   name: 'aiHealthNavigatorPrompt',
   input: {schema: AiHealthNavigatorInputSchema},
   output: {schema: AiHealthNavigatorOutputSchema},
-  prompt: `You are an AI health navigator for both humans and domestic animals. A user will describe symptoms and their location. Your task is to identify the most relevant medical specialist (for humans) or veterinarian (for domestic animals) and suggest next steps.
+  prompt: `You are an AI health navigator for both humans and domestic animals. A user will describe symptoms and their location. Your task is to identify the most relevant medical specialist and suggest next steps.
 
-Respond in the language specified by the user. If the language is 'Assamese', your entire response (specialist, reasoning, nextSteps) MUST be in Assamese. Otherwise, default to English.
+IMPORTANT LANGUAGE INSTRUCTIONS:
+- The 'specialist' field MUST always be in English (e.g., "Cardiology", "Dermatologist", "Veterinarian"). This is critical for system functionality.
+- If the user's specified language is 'Assamese', the 'reasoning' and 'nextSteps' fields MUST be in Assamese.
+- If the language is 'English' or not specified, the entire response should be in English.
 
 Language for Response: {{{language}}}
 Symptoms: {{{symptoms}}}
 Location: {{{location}}}
 
-Based on the symptoms, determine the specialist, provide a brief reasoning, and suggest the next appropriate action. For example, if symptoms point to a heart issue, suggest a "Cardiologist". If it's a skin issue, suggest a "Dermatologist". If it's for an animal, suggest a "Veterinarian".
+Based on the symptoms, determine the specialist, provide a brief reasoning, and suggest the next appropriate action.
 `,
 });
 
@@ -65,3 +68,4 @@ const aiHealthNavigatorFlow = ai.defineFlow(
     return output!;
   }
 );
+
