@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MapPin, Star } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 const centers = [
     { name: 'Guwahati Advanced Imaging', tests: ['MRI', 'CT Scan'], location: 'Ulubari, Guwahati', rating: 4.8, timing: '8 AM - 10 PM', avatar: 'https://placehold.co/100x100' },
