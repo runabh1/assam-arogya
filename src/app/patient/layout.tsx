@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import * as React from "react";
@@ -14,6 +15,7 @@ import {
   Bell,
   User,
   Beaker,
+  ShieldCheck,
 } from "lucide-react";
 
 import {
@@ -42,6 +44,7 @@ const pageTitles: { [key: string]: string } = {
   "/patient/report-analyzer": "AI Report Analyzer",
   "/patient/reminders": "Health Reminders",
   "/patient/book-test": "Book a Diagnostic Test",
+  "/patient/predictive-health": "Predictive Health",
 };
 
 export default function PatientLayout({
@@ -106,6 +109,17 @@ export default function PatientLayout({
               >
                 <FileCheck className="h-4 w-4" />
                 AI Report Analyzer
+              </Link>
+               <Link
+                href="/patient/predictive-health"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/predictive-health")
+                    ? "bg-muted text-primary"
+                    : ""
+                }`}
+              >
+                <ShieldCheck className="h-4 w-4" />
+                Predictive Health
               </Link>
               <Link
                 href="/patient/find-provider"
@@ -214,6 +228,17 @@ export default function PatientLayout({
                 >
                   <FileCheck className="h-5 w-5" />
                   AI Report Analyzer
+                </Link>
+                 <Link
+                  href="/patient/predictive-health"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/predictive-health")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
+                >
+                  <ShieldCheck className="h-5 w-5" />
+                  Predictive Health
                 </Link>
                 <Link
                   href="/patient/find-provider"
