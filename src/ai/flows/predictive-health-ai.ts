@@ -11,7 +11,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const PredictiveHealthInputSchema = z.object({
+export const PredictiveHealthInputSchema = z.object({
   assessmentType: z.enum(['oralCancer', 'heartAttack']),
   symptoms: z
     .string()
@@ -31,7 +31,7 @@ const PredictiveHealthInputSchema = z.object({
 });
 export type PredictiveHealthInput = z.infer<typeof PredictiveHealthInputSchema>;
 
-const PredictiveHealthOutputSchema = z.object({
+export const PredictiveHealthOutputSchema = z.object({
   riskLevel: z.enum(['Low', 'Medium', 'High']).describe('The calculated risk level.'),
   recommendation: z.string().describe('The recommended action for the user based on the risk level.'),
   isEmergency: z.boolean().describe('Whether the situation is considered a high-risk emergency.'),
@@ -90,8 +90,8 @@ Assessment Type: {{{assessmentType}}}
   - Set isEmergency to false.
 
 Return the final risk level, recommendation, emergency status, and specialist.
+Photo for Analysis (if provided):
 {{#if photoDataUri}}
-Photo for Analysis:
 {{media url=photoDataUri}}
 {{/if}}
 `,
@@ -108,4 +108,3 @@ const predictiveHealthAiFlow = ai.defineFlow(
     return output!;
   }
 );
-    
