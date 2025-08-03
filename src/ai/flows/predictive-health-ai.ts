@@ -49,7 +49,7 @@ export async function predictiveHealthAi(
 
 const prompt = ai.definePrompt({
   name: 'predictiveHealthAiPrompt',
-  input: {schema: PredictiveHealthInputSchema},
+  input: {schema: z.object({ ...PredictiveHealthInputSchema.shape, photoProvided: z.string() })},
   output: {schema: PredictiveHealthOutputSchema},
   prompt: `You are an intelligent health risk predictor. Analyze the user's input to determine their risk for either Oral Cancer or a Heart Attack. Follow the rules precisely.
 
