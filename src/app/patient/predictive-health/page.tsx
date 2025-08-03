@@ -14,6 +14,7 @@ import {
   Sparkles,
   Phone,
   Ambulance,
+  ShieldCheck,
 } from 'lucide-react';
 import Link from 'next/link';
 
