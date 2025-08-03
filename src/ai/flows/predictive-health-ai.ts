@@ -9,7 +9,6 @@
  */
 
 import {ai} from '@/ai/genkit';
-import { generate } from 'genkit';
 import {z} from 'genkit';
 
 const PredictiveHealthInputSchema = z.object({
@@ -120,8 +119,8 @@ const predictiveHealthAiFlow = ai.defineFlow(
       promptParts.push({media: {url: photoDataUri}});
     }
 
-    const {output} = await generate({
-      model: ai.model,
+    const {output} = await ai.generate({
+      model: 'googleai/gemini-2.0-flash',
       prompt: promptParts,
       output: {
         schema: PredictiveHealthOutputSchema,
