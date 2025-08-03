@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Leaf, PawPrint, Sun } from 'lucide-react';
+import { ArrowRight, Leaf, PawPrint, Sun, HeartHandshake } from 'lucide-react';
 import { Logo } from '@/components/logo';
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
         <Link href="/" className="flex items-center gap-2">
           <Logo className="h-8 w-8 text-primary" />
           <span className="text-xl font-bold tracking-tight text-foreground">
-            Arogya Mitra
+            Arogya Assam
           </span>
         </Link>
         <div className="flex items-center gap-2">
@@ -29,14 +29,14 @@ export default function Home() {
           <div 
             className="absolute inset-0 bg-no-repeat bg-center bg-cover opacity-10"
             style={{ backgroundImage: "url('https://placehold.co/1200x600.png')", backgroundPositionY: '35%' }}
-            data-ai-hint="cherry blossom"
+            data-ai-hint="assam tea garden"
           ></div>
           <div className="relative z-10">
             <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tighter mb-4 text-primary">
-              Health in Full Bloom
+              Your Health, Our Priority.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              Arogya Mitra is your happy place for healthcare, connecting patients, pets, and providers with joy and simplicity.
+              Arogya Assam is a central hub connecting patients and healthcare providers in Assam. This was built after I lost my grandfather due to lack of timely medical access. Our mission is to prevent that from happening to anyone else.
             </p>
             <div className="flex justify-center gap-4">
               <Button size="lg" asChild>
@@ -55,9 +55,9 @@ export default function Home() {
               <div className="p-3 bg-primary/10 rounded-full mb-4">
                 <Leaf className="h-8 w-8 text-primary" />
               </div>
-              <h2 className="text-2xl font-headline font-bold mb-2">For You</h2>
+              <h2 className="text-2xl font-headline font-bold mb-2">For You & Your Family</h2>
               <p className="text-muted-foreground">
-                Manage your health with a smile. Access records, find doctors, and get AI insights.
+                Manage your health with ease. Access records, find doctors, and book tests.
               </p>
             </div>
              <div className="flex flex-col items-center text-center">
@@ -66,12 +66,12 @@ export default function Home() {
               </div>
               <h2 className="text-2xl font-headline font-bold mb-2">For Your Pets</h2>
               <p className="text-muted-foreground">
-                Keep your furry friends happy and healthy. Track vet visits and manage their profiles.
+                Keep your furry friends healthy. Track vet visits and manage their profiles.
               </p>
             </div>
              <div className="flex flex-col items-center text-center lg:col-span-1 md:col-span-2">
               <div className="p-3 bg-primary/10 rounded-full mb-4">
-                <Sun className="h-8 w-8 text-primary" />
+                <HeartHandshake className="h-8 w-8 text-primary" />
               </div>
               <h2 className="text-2xl font-headline font-bold mb-2">For Providers</h2>
               <p className="text-muted-foreground">
@@ -85,17 +85,17 @@ export default function Home() {
                 <div>
                     <Image
                       src="https://placehold.co/600x400.png"
-                      alt="Happy patient"
+                      alt="Happy patient from Assam"
                       width={600}
                       height={400}
                       className="rounded-lg shadow-xl"
-                      data-ai-hint="smiling person flowers"
+                      data-ai-hint="smiling person assam"
                     />
                 </div>
                  <div className="flex flex-col items-start text-left">
-                  <h2 className="text-3xl font-headline font-bold mb-4">Your Wellness Journey, Beautifully Organized</h2>
+                  <h2 className="text-3xl font-headline font-bold mb-4">Your Wellness Journey, Simplified</h2>
                   <p className="text-muted-foreground mb-6">
-                    We believe managing health should be a positive experience. Our platform is designed to be intuitive, beautiful, and easy to use, so you can focus on living a happy, healthy life.
+                    We believe managing health should be a positive and straightforward experience. Our platform is designed to be intuitive, beautiful, and easy to use, so you can focus on living a happy, healthy life.
                   </p>
                   <Button variant="link" className="p-0 h-auto" asChild>
                     <Link href="/patient/dashboard">
@@ -107,7 +107,7 @@ export default function Home() {
         </section>
       </main>
       <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-muted-foreground text-sm">
-        <p>&copy; {new Date().getFullYear()} Arogya Mitra. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Arogya Assam. All rights reserved.</p>
       </footer>
     </div>
   );

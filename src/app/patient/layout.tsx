@@ -13,19 +13,14 @@ import {
   Users,
   Bell,
   User,
-  Flower2
+  Beaker,
 } from "lucide-react";
 
 import {
-  Sidebar,
-  SidebarProvider,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarContent,
-  SidebarHeader,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Logo } from "@/components/logo";
 import {
   DropdownMenu,
@@ -36,10 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-
 
 const pageTitles: { [key: string]: string } = {
   "/patient/dashboard": "Dashboard",
@@ -49,8 +41,8 @@ const pageTitles: { [key: string]: string } = {
   "/patient/records": "Medical Records",
   "/patient/report-analyzer": "AI Report Analyzer",
   "/patient/reminders": "Health Reminders",
+  "/patient/book-test": "Book a Diagnostic Test",
 };
-
 
 export default function PatientLayout({
   children,
@@ -72,56 +64,83 @@ export default function PatientLayout({
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Logo className="h-6 w-6 text-primary" />
-              <span className="">Arogya Mitra</span>
+              <span className="">Arogya Assam</span>
             </Link>
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-               <Link
+              <Link
                 href="/patient/dashboard"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/dashboard") ? "bg-muted text-primary" : ""}`}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/dashboard") ? "bg-muted text-primary" : ""
+                }`}
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Dashboard
               </Link>
               <Link
                 href="/patient/profile"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/profile") ? "bg-muted text-primary" : ""}`}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/profile") ? "bg-muted text-primary" : ""
+                }`}
               >
                 <Users className="h-4 w-4" />
                 My Profiles
               </Link>
               <Link
                 href="/patient/navigator"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/navigator") ? "bg-muted text-primary" : ""}`}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/navigator") ? "bg-muted text-primary" : ""
+                }`}
               >
                 <Bot className="h-4 w-4" />
                 AI Health Navigator
               </Link>
               <Link
                 href="/patient/report-analyzer"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/report-analyzer") ? "bg-muted text-primary" : ""}`}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/report-analyzer")
+                    ? "bg-muted text-primary"
+                    : ""
+                }`}
               >
                 <FileCheck className="h-4 w-4" />
                 AI Report Analyzer
               </Link>
               <Link
                 href="/patient/find-provider"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/find-provider") ? "bg-muted text-primary" : ""}`}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/find-provider")
+                    ? "bg-muted text-primary"
+                    : ""
+                }`}
               >
                 <Search className="h-4 w-4" />
                 Find a Provider
               </Link>
               <Link
+                href="/patient/book-test"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/book-test") ? "bg-muted text-primary" : ""
+                }`}
+              >
+                <Beaker className="h-4 w-4" />
+                Book a Test
+              </Link>
+              <Link
                 href="/patient/records"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/records") ? "bg-muted text-primary" : ""}`}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/records") ? "bg-muted text-primary" : ""
+                }`}
               >
                 <FileText className="h-4 w-4" />
                 Medical Records
               </Link>
               <Link
                 href="/patient/reminders"
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive("/patient/reminders") ? "bg-muted text-primary" : ""}`}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/reminders") ? "bg-muted text-primary" : ""
+                }`}
               >
                 <Bell className="h-4 w-4" />
                 Reminders
@@ -150,53 +169,90 @@ export default function PatientLayout({
                   className="flex items-center gap-2 text-lg font-semibold mb-4"
                 >
                   <Logo className="h-6 w-6 text-primary" />
-                  <span className="sr-only">Arogya Mitra</span>
+                  <span className="sr-only">Arogya Assam</span>
                 </Link>
                 <Link
                   href="/patient/dashboard"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/dashboard") ? "bg-muted text-foreground" : ""}`}
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/dashboard")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
                 >
                   <LayoutDashboard className="h-5 w-5" />
                   Dashboard
                 </Link>
-                 <Link
+                <Link
                   href="/patient/profile"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/profile") ? "bg-muted text-foreground" : ""}`}
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/profile")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
                 >
                   <Users className="h-5 w-5" />
                   My Profiles
                 </Link>
                 <Link
                   href="/patient/navigator"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/navigator") ? "bg-muted text-foreground" : ""}`}
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/navigator")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
                 >
                   <Bot className="h-5 w-5" />
                   AI Health Navigator
                 </Link>
-                 <Link
+                <Link
                   href="/patient/report-analyzer"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/report-analyzer") ? "bg-muted text-foreground" : ""}`}
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/report-analyzer")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
                 >
                   <FileCheck className="h-5 w-5" />
                   AI Report Analyzer
                 </Link>
-                 <Link
+                <Link
                   href="/patient/find-provider"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/find-provider") ? "bg-muted text-foreground" : ""}`}
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/find-provider")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
                 >
                   <Search className="h-5 w-5" />
                   Find a Provider
                 </Link>
+                 <Link
+                  href="/patient/book-test"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/book-test") ? "bg-muted text-foreground" : ""
+                  }`}
+                >
+                  <Beaker className="h-5 w-5" />
+                  Book a Test
+                </Link>
                 <Link
                   href="/patient/records"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/records") ? "bg-muted text-foreground" : ""}`}
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/records")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
                 >
                   <FileText className="h-5 w-5" />
                   Medical Records
                 </Link>
                 <Link
                   href="/patient/reminders"
-                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive("/patient/reminders") ? "bg-muted text-foreground" : ""}`}
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/reminders")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
                 >
                   <Bell className="h-5 w-5" />
                   Reminders
@@ -204,9 +260,9 @@ export default function PatientLayout({
               </nav>
             </SheetContent>
           </Sheet>
-           <div className="w-full flex-1">
-             <h1 className="font-semibold text-lg">{title}</h1>
-           </div>
+          <div className="w-full flex-1">
+            <h1 className="font-semibold text-lg">{title}</h1>
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">

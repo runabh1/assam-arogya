@@ -2,6 +2,7 @@
 import {
   Activity,
   ArrowUpRight,
+  Beaker,
   Calendar,
   Dog,
   Feather,
@@ -51,28 +52,37 @@ export default function PatientDashboard() {
             <Card>
               <CardHeader className="pb-2">
                  <CardTitle className="flex items-center gap-2">
-                  <Flower className="h-5 w-5 text-primary" />
+                  <Dog className="h-5 w-5 text-primary" />
                   Pet Profiles
                 </CardTitle>
                 <CardDescription>2 Active Profiles</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-2">
-                  <Dog className="h-5 w-5 text-muted-foreground" />
+                  <Avatar className="h-6 w-6">
+                    <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="dog" />
+                    <AvatarFallback>B</AvatarFallback>
+                  </Avatar>
+                   <Avatar className="h-6 w-6">
+                    <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="cat" />
+                    <AvatarFallback>L</AvatarFallback>
+                  </Avatar>
                   <span>Buddy & Lucy</span>
                 </div>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-primary" />
-                  Next Appointment
+                 <CardTitle className="flex items-center gap-2">
+                  <Beaker className="h-5 w-5 text-primary" />
+                  Book a Test
                 </CardTitle>
-                <CardDescription>Dr. Smith</CardDescription>
+                <CardDescription>MRI, CT Scan, X-Ray</CardDescription>
               </CardHeader>
               <CardContent>
-                 <span>Tomorrow, 10:00 AM</span>
+                <Button size="sm" variant="outline" asChild>
+                  <Link href="/patient/book-test">Find a Center</Link>
+                </Button>
               </CardContent>
             </Card>
             <Card>
@@ -94,7 +104,7 @@ export default function PatientDashboard() {
             <CardHeader>
               <CardTitle>Upcoming Appointments</CardTitle>
               <CardDescription>
-                A garden of upcoming appointments and consultations.
+                A list of upcoming appointments and consultations.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -148,7 +158,7 @@ export default function PatientDashboard() {
             <CardHeader>
               <CardTitle>Recent Activity</CardTitle>
               <CardDescription>
-                New blossoms in your health profile.
+                Recent updates in your health profile.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-8">
