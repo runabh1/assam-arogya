@@ -12,7 +12,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const GenomeGuardianInputSchema = z.object({
+const GenomeGuardianInputSchema = z.object({
   name: z.string().describe("The user's name."),
   age: z.number().describe('The age of the user.'),
   gender: z.enum(['Male', 'Female', 'Other']).describe('The gender of the user.'),
@@ -29,7 +29,7 @@ export const GenomeGuardianInputSchema = z.object({
 });
 export type GenomeGuardianInput = z.infer<typeof GenomeGuardianInputSchema>;
 
-export const GenomeGuardianOutputSchema = z.object({
+const GenomeGuardianOutputSchema = z.object({
   report: z.string().describe('The final formatted "Future Health Report" as a markdown string.'),
 });
 export type GenomeGuardianOutput = z.infer<typeof GenomeGuardianOutputSchema>;
