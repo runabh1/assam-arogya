@@ -47,17 +47,13 @@ export async function predictiveHealthAi(
   return predictiveHealthAiFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'predictiveHealthAiPrompt',
-  input: {schema: z.object({ ...PredictiveHealthInputSchema.shape, photoProvided: z.string() })},
-  output: {schema: PredictiveHealthOutputSchema},
-  prompt: `You are an intelligent health risk predictor. Analyze the user's input to determine their risk for either Oral Cancer or a Heart Attack. Follow the rules precisely.
+const promptTemplate = `You are an intelligent health risk predictor. Analyze the user's input to determine their risk for either Oral Cancer or a Heart Attack. Follow the rules precisely.
 
 Assessment Type: {{{assessmentType}}}
+Photo provided: {{{photoProvided}}}
 
 **IF Assessment Type is 'oralCancer':**
 - Symptoms provided: {{{symptoms}}}
-- Photo provided: {{{photoProvided}}}
 - Analyze symptoms like "gum bleeding", "white patch", "jaw swelling", etc.
 
 - **High Risk**: If multiple symptoms strongly correlate with oral cancer AND a photo is provided.
@@ -90,11 +86,13 @@ Assessment Type: {{{assessmentType}}}
   - Set isEmergency to false.
 
 Return the final risk level, recommendation, emergency status, and specialist.
-Photo for Analysis (if provided):
-{{#if photoDataUri}}
-{{media url=photoDataUri}}
-{{/if}}
-`,
+`;
+
+const prompt = ai.definePrompt({
+  name: 'predictiveHealthAiPrompt',
+  input: {schema: z.object({ ...PredictiveHealthInputSchema.shape, photoProvided: z.string() })},
+  output: {schema: PredictiveHealthOutputSchema},
+  prompt: promptTemplate,
 });
 
 const predictiveHealthAiFlow = ai.defineFlow(
@@ -104,8 +102,10 @@ const predictiveHealthAiFlow = ai.defineFlow(
     outputSchema: PredictiveHealthOutputSchema,
   },
   async input => {
+    const { photoDataUri, ...rest } = input;
     const {output} = await prompt({
-      ...input,
+      ...rest,
+      photoDataUri,
       photoProvided: input.photoDataUri ? 'Yes' : 'No',
     });
     return output!;
