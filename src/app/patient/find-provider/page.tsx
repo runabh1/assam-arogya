@@ -15,14 +15,21 @@ const allProviders = [
     { name: 'Dr. Rahul Sharma', specialty: 'Dermatology', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
     { name: 'Dr. Priya Desai (Vet)', specialty: 'Veterinary', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
     { name: 'Dr. Alok Verma', specialty: 'Orthopedics', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
+    { name: 'Dr. Anjali Rao', specialty: 'General Physician', location: 'Guwahati', avatar: 'https://placehold.co/100x100' },
 ];
 
 function FindProviderComponent() {
   const searchParams = useSearchParams();
-  const specialty = searchParams.get('specialty');
+  const specialtyParam = searchParams.get('specialty');
 
-  const providers = specialty
-    ? allProviders.filter(p => p.specialty.toLowerCase().includes(specialty.toLowerCase()))
+  const providers = specialtyParam
+    ? allProviders.filter(p => {
+        const specialtyLower = specialtyParam.toLowerCase();
+        if (specialtyLower === 'general') {
+            return p.specialty.toLowerCase().includes('general physician');
+        }
+        return p.specialty.toLowerCase().includes(specialtyLower)
+    })
     : allProviders;
 
   return (
@@ -36,11 +43,12 @@ function FindProviderComponent() {
                <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   <Input placeholder="Search by name or specialty..." />
                   <Input placeholder="Location (e.g., Guwahati)" />
-                  <Select defaultValue={specialty || ""}>
+                  <Select defaultValue={specialtyParam || ""}>
                       <SelectTrigger>
                           <SelectValue placeholder="Filter by specialty" />
                       </SelectTrigger>
                       <SelectContent>
+                          <SelectItem value="general physician">General Physician</SelectItem>
                           <SelectItem value="cardiology">Cardiology</SelectItem>
                           <SelectItem value="dermatology">Dermatology</SelectItem>
                           <SelectItem value="veterinary">Veterinary</SelectItem>
@@ -57,7 +65,7 @@ function FindProviderComponent() {
               <Card key={index}>
                   <CardHeader className="flex-row items-center gap-4">
                       <Avatar className="h-16 w-16">
-                          <AvatarImage src={provider.avatar} alt={provider.name} />
+                          <AvatarImage src={provider.avatar} alt={provider.name} data-ai-hint="doctor person" />
                           <AvatarFallback>{provider.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div>
@@ -79,7 +87,7 @@ function FindProviderComponent() {
           ))}
           {providers.length === 0 && (
             <div className="col-span-full text-center text-muted-foreground py-10">
-                <p>No providers found matching the specialty "{specialty}".</p>
+                <p>No providers found matching the specialty "{specialtyParam}".</p>
                 <p>Try clearing the filter to see all providers.</p>
             </div>
           )}
