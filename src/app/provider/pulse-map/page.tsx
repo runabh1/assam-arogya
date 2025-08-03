@@ -89,10 +89,10 @@ export default function PulseMapPage() {
                             data-ai-hint="assam map"
                            />
                            {mockAlerts.map((alert, index) => (
-                             <div key={index} className="absolute" style={{ top: alert.coordinates.top, left: alert.coordinates.left }}>
+                             <div key={index} className="absolute z-10" style={{ top: alert.coordinates.top, left: alert.coordinates.left }}>
                                 <div className={`relative group flex items-center justify-center`}>
                                     <Siren className={`h-6 w-6 animate-pulse ${alert.severity === 'High' ? 'text-red-500' : 'text-yellow-500'}`} />
-                                    <div className="absolute bottom-full mb-2 w-max hidden group-hover:block bg-background p-2 rounded-md shadow-lg text-xs">
+                                    <div className="absolute bottom-full mb-2 w-max hidden group-hover:block bg-background p-2 rounded-md shadow-lg text-xs z-20">
                                         <strong>{alert.district}</strong>: {alert.increase} spike in {alert.symptom}
                                     </div>
                                 </div>
