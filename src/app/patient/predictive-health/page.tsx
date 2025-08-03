@@ -279,8 +279,8 @@ export default function PredictiveHealthPage() {
                   </Button>
                 </form>
               </Form>
+            </Tabs>
           </CardContent>
-          </Tabs>
         </Card>
 
         <div className="lg:col-span-1">
@@ -301,7 +301,7 @@ export default function PredictiveHealthPage() {
                 <Card className={cn("border-2", 
                     result.riskLevel === 'High' && "border-red-500",
                     result.riskLevel === 'Medium' && "border-yellow-500",
-                    result.riskLevel === 'Low' && "border-green-500",
+                    result.riskLevel === 'Low' && "border-green-500"
                 )}>
                     <CardHeader className={cn("text-center", riskBgColor[result.riskLevel])}>
                         <div className="flex justify-center items-center gap-2">
