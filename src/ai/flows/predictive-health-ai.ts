@@ -9,6 +9,7 @@
  */
 
 import {ai} from '@/ai/genkit';
+import {generate} from 'genkit/ai';
 import {z} from 'genkit';
 
 const PredictiveHealthInputSchema = z.object({
@@ -32,10 +33,19 @@ const PredictiveHealthInputSchema = z.object({
 export type PredictiveHealthInput = z.infer<typeof PredictiveHealthInputSchema>;
 
 const PredictiveHealthOutputSchema = z.object({
-  riskLevel: z.enum(['Low', 'Medium', 'High']).describe('The calculated risk level.'),
-  recommendation: z.string().describe('The recommended action for the user based on the risk level.'),
-  isEmergency: z.boolean().describe('Whether the situation is considered a high-risk emergency.'),
-  suggestedSpecialist: z.string().optional().describe('The type of doctor to consult (e.g., Oncologist, Cardiologist).'),
+  riskLevel: z
+    .enum(['Low', 'Medium', 'High'])
+    .describe('The calculated risk level.'),
+  recommendation: z
+    .string()
+    .describe('The recommended action for the user based on the risk level.'),
+  isEmergency: z
+    .boolean()
+    .describe('Whether the situation is considered a high-risk emergency.'),
+  suggestedSpecialist: z
+    .string()
+    .optional()
+    .describe('The type of doctor to consult (e.g., Oncologist, Cardiologist).'),
 });
 export type PredictiveHealthOutput = z.infer<
   typeof PredictiveHealthOutputSchema
@@ -49,11 +59,11 @@ export async function predictiveHealthAi(
 
 const promptTemplate = `You are an intelligent health risk predictor. Analyze the user's input to determine their risk for either Oral Cancer or a Heart Attack. Follow the rules precisely.
 
-Assessment Type: {{{assessmentType}}}
-Photo provided: {{{photoProvided}}}
+Assessment Type: {{assessmentType}}
+Photo provided: {{photoProvided}}
 
 **IF Assessment Type is 'oralCancer':**
-- Symptoms provided: {{{symptoms}}}
+- Symptoms provided: {{symptoms}}
 - Analyze symptoms like "gum bleeding", "white patch", "jaw swelling", etc.
 
 - **High Risk**: If multiple symptoms strongly correlate with oral cancer AND a photo is provided.
@@ -69,8 +79,8 @@ Photo provided: {{{photoProvided}}}
   - Set isEmergency to false.
 
 **IF Assessment Type is 'heartAttack':**
-- Symptoms provided: {{{symptoms}}}
-- Medical History: {{{history}}}
+- Symptoms provided: {{symptoms}}
+- Medical History: {{history}}
 - Analyze symptoms like "chest pain", "sweating", "shortness of breath" and history like "smoking", "high BP", "family history".
 
 - **High Risk**: If ≥3 danger symptoms (e.g., severe chest pain, radiating pain, shortness of breath) AND ≥2 history risk factors (e.g., smoking, high BP).
@@ -88,13 +98,6 @@ Photo provided: {{{photoProvided}}}
 Return the final risk level, recommendation, emergency status, and specialist.
 `;
 
-const prompt = ai.definePrompt({
-  name: 'predictiveHealthAiPrompt',
-  input: {schema: z.object({ ...PredictiveHealthInputSchema.shape, photoProvided: z.string() })},
-  output: {schema: PredictiveHealthOutputSchema},
-  prompt: promptTemplate,
-});
-
 const predictiveHealthAiFlow = ai.defineFlow(
   {
     name: 'predictiveHealthAiFlow',
@@ -102,12 +105,29 @@ const predictiveHealthAiFlow = ai.defineFlow(
     outputSchema: PredictiveHealthOutputSchema,
   },
   async input => {
-    const { photoDataUri, ...rest } = input;
-    const {output} = await prompt({
-      ...rest,
-      photoDataUri,
-      photoProvided: input.photoDataUri ? 'Yes' : 'No',
+    const {photoDataUri, symptoms, assessmentType, history} = input;
+    const photoProvided = photoDataUri ? 'Yes' : 'No';
+
+    let promptText = promptTemplate
+      .replace('{{assessmentType}}', assessmentType)
+      .replace('{{photoProvided}}', photoProvided)
+      .replace('{{symptoms}}', symptoms)
+      .replace('{{history}}', history || '');
+
+    const promptParts: any[] = [{text: promptText}];
+
+    if (photoDataUri) {
+      promptParts.push({media: {url: photoDataUri}});
+    }
+
+    const {output} = await generate({
+      model: ai.model,
+      prompt: promptParts,
+      output: {
+        schema: PredictiveHealthOutputSchema,
+      },
     });
+
     return output!;
   }
 );
