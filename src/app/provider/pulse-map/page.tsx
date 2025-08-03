@@ -27,13 +27,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 type Alert = {
   id: number;
   district: string;
   symptom: string;
   count: number;
-  severity: 'High' | 'Medium' | 'Low';
+  severity: 'High' | 'Medium' | 'Low' | 'Normal';
   coordinates: { top: string; left: string };
   action: string;
 }
@@ -42,19 +43,20 @@ const allAlerts: Alert[] = [
     { id: 1, district: 'Sivasagar', symptom: 'Mouth Ulcers', count: 6, severity: 'High', coordinates: { top: '42%', left: '82%' }, action: 'Check water quality' },
     { id: 2, district: 'Barpeta', symptom: 'Fever', count: 3, severity: 'Medium', coordinates: { top: '70%', left: '35%' }, action: 'Monitor trend' },
     { id: 3, district: 'Guwahati', symptom: 'Chest Pain', count: 7, severity: 'High', coordinates: { top: '65%', left: '48%' }, action: 'Alert cardiologists' },
-    { id: 4, district: 'Dibrugarh', symptom: 'Cough', count: 2, severity: 'Low', coordinates: { top: '30%', left: '88%' }, action: 'Continue monitoring' },
+    { id: 4, district: 'Dibrugarh', symptom: 'Cough', count: 2, severity: 'Normal', coordinates: { top: '30%', left: '88%' }, action: 'Continue monitoring' },
 ];
 
 const severityConfig = {
     High: { color: 'bg-red-500', label: 'High' },
     Medium: { color: 'bg-yellow-500', label: 'Medium' },
-    Low: { color: 'bg-green-500', label: 'Low' },
+    Low: { color: 'bg-green-500', label: 'Low' }, // This was unused but good to keep
+    Normal: { color: 'bg-green-500', label: 'Normal' },
 }
 
 export default function PulseMapPage() {
   const [filteredAlerts, setFilteredAlerts] = useState(allAlerts);
   const [districtFilter, setDistrictFilter] = useState('all');
-  const [severityFilter, setSeverityFilter] = useState({ High: true, Medium: true, Low: true });
+  const [severityFilter, setSeverityFilter] = useState({ High: true, Medium: true, Normal: true, Low: true });
   const { toast } = useToast();
 
   React.useEffect(() => {
@@ -66,7 +68,7 @@ export default function PulseMapPage() {
     setFilteredAlerts(alerts);
   }, [districtFilter, severityFilter]);
 
-  const handleSeverityChange = (severity: 'High' | 'Medium' | 'Low', checked: boolean | 'indeterminate') => {
+  const handleSeverityChange = (severity: 'High' | 'Medium' | 'Normal', checked: boolean | 'indeterminate') => {
     if (typeof checked === 'boolean') {
         setSeverityFilter(prev => ({...prev, [severity]: checked}));
     }
@@ -108,8 +110,8 @@ export default function PulseMapPage() {
                                 <Label htmlFor="medium-sev" className="font-medium text-yellow-600">Medium</Label>
                             </div>
                              <div className="flex items-center space-x-2">
-                                <Checkbox id="low-sev" checked={severityFilter.Low} onCheckedChange={(checked) => handleSeverityChange('Low', checked)} />
-                                <Label htmlFor="low-sev" className="font-medium text-green-600">Low</Label>
+                                <Checkbox id="low-sev" checked={severityFilter.Normal} onCheckedChange={(checked) => handleSeverityChange('Normal', checked)} />
+                                <Label htmlFor="low-sev" className="font-medium text-green-600">Normal</Label>
                             </div>
                         </div>
                     </div>
@@ -124,10 +126,11 @@ export default function PulseMapPage() {
             </CardHeader>
             <CardContent>
                 <div className="relative w-full aspect-video bg-muted/20 rounded-lg overflow-hidden border">
-                   <img
-                      src="https://storage.googleapis.com/static-assets-studio/assetz/assam-map.png"
+                   <Image
+                      src="/assam-map.png"
                       alt="Map of Assam"
-                      className="absolute inset-0 w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                    />
                    {filteredAlerts.map((alert) => (
                      <Tooltip key={alert.id}>
