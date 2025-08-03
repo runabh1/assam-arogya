@@ -12,7 +12,7 @@ export default function Home() {
         <Link href="/" className="flex items-center gap-2">
           <Logo className="h-8 w-8 text-primary" />
           <span className="text-xl font-bold tracking-tight text-foreground">
-            Arogya Assam
+            Arogya Mitra
           </span>
         </Link>
         <div className="flex items-center gap-2">
@@ -36,7 +36,7 @@ export default function Home() {
               Your Health, Our Priority.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              Arogya Assam is a central hub connecting patients and healthcare providers in Assam. This was built after I lost my grandfather due to lack of timely medical access. Our mission is to prevent that from happening to anyone else.
+              Arogya Mitra is a central hub connecting patients and healthcare providers in Assam. This was built after I lost my grandfather due to lack of timely medical access. Our mission is to prevent that from happening to anyone else.
             </p>
             <div className="flex justify-center gap-4">
               <Button size="lg" asChild>
@@ -107,7 +107,7 @@ export default function Home() {
         </section>
       </main>
       <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-muted-foreground text-sm">
-        <p>&copy; {new Date().getFullYear()} Arogya Assam. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Arogya Mitra. All rights reserved.</p>
       </footer>
     </div>
   );

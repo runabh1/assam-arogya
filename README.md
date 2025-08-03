@@ -1,6 +1,6 @@
-# Assam Arogya
+# Arogya Mitra
 
-Assam Arogya is a healthcare platform designed to provide real-time health monitoring and analysis for healthcare providers in Assam. It aims to visualize symptom clusters, manage health alerts, and provide tools for better patient care and public health management.
+Arogya Mitra is a healthcare platform designed to provide real-time health monitoring and analysis for healthcare providers in Assam. It aims to visualize symptom clusters, manage health alerts, and provide tools for better patient care and public health management.
 
 ## Getting Started
 

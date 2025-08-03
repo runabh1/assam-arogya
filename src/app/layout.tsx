@@ -10,7 +10,7 @@ const ptSans = PT_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Arogya Assam - Your Health, Our Priority',
+  title: 'Arogya Mitra - Your Health, Our Priority',
   description: 'A central hub connecting patients and healthcare providers in Assam.',
 };
 
