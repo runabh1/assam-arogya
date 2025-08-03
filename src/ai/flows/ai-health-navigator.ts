@@ -17,6 +17,7 @@ const AiHealthNavigatorInputSchema = z.object({
     .string()
     .describe('A description of the symptoms experienced by the patient, who could be a human or a domestic animal.'),
   location: z.string().describe('The location of the patient.'),
+  language: z.string().optional().describe('The language for the response (e.g., "Assamese", "English"). Defaults to English if not provided.'),
 });
 export type AiHealthNavigatorInput = z.infer<typeof AiHealthNavigatorInputSchema>;
 
@@ -43,6 +44,9 @@ const prompt = ai.definePrompt({
   output: {schema: AiHealthNavigatorOutputSchema},
   prompt: `You are an AI health navigator for both humans and domestic animals. A user will describe symptoms and their location. Your task is to identify the most relevant medical specialist (for humans) or veterinarian (for domestic animals) and suggest next steps.
 
+Respond in the language specified by the user. If the language is 'Assamese', your entire response (specialist, reasoning, nextSteps) MUST be in Assamese. Otherwise, default to English.
+
+Language for Response: {{{language}}}
 Symptoms: {{{symptoms}}}
 Location: {{{location}}}
 

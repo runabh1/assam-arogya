@@ -50,6 +50,7 @@ declare global {
 }
 
 type Language = 'en-US' | 'as-IN';
+type LanguageLabel = 'English' | 'Assamese';
 
 export default function AiHealthNavigatorPage() {
   const [loading, setLoading] = useState(false);
@@ -102,7 +103,8 @@ export default function AiHealthNavigatorPage() {
     setLoading(true);
     setResult(null);
     try {
-      const output = await aiHealthNavigator(values);
+      const language: LanguageLabel = selectedLang === 'as-IN' ? 'Assamese' : 'English';
+      const output = await aiHealthNavigator({...values, language});
       setResult(output);
     } catch (error) {
       console.error(error);
