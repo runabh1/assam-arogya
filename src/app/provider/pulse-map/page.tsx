@@ -80,16 +80,13 @@ export default function PulseMapPage() {
                         <CardDescription>Live visualization of symptom clusters across Assam.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="relative w-full aspect-[16/10] bg-muted/30 rounded-lg overflow-hidden">
-                           <Image
-                            src="https://placehold.co/800x500.png"
-                            fill
-                            alt="Map of Assam"
-                            className="object-cover opacity-20"
+                        <div 
+                            className="relative w-full aspect-[16/10] bg-muted/30 rounded-lg overflow-hidden bg-cover bg-center"
+                            style={{ backgroundImage: "url('https://placehold.co/800x500.png')" }}
                             data-ai-hint="assam map"
-                           />
+                        >
                            {mockAlerts.map((alert, index) => (
-                             <div key={index} className="absolute z-10" style={{ top: alert.coordinates.top, left: alert.coordinates.left }}>
+                             <div key={index} className="absolute z-10" style={{ top: alert.coordinates.top, left: alert.coordinates.left, transform: 'translate(-50%, -50%)' }}>
                                 <div className={`relative group flex items-center justify-center`}>
                                     <Siren className={`h-6 w-6 animate-pulse ${alert.severity === 'High' ? 'text-red-500' : 'text-yellow-500'}`} />
                                     <div className="absolute bottom-full mb-2 w-max hidden group-hover:block bg-background p-2 rounded-md shadow-lg text-xs z-20">
