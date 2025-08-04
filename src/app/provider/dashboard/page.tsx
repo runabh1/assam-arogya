@@ -1,7 +1,8 @@
 
 'use client';
+import { useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import { DollarSign, Users, Activity, ArrowRight, Map, Siren } from 'lucide-react';
+import { DollarSign, Users, ArrowRight, Map, Siren, Phone, Smartphone, Clock } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -11,17 +12,10 @@ import {
   CardTitle,
   CardDescription
 } from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { cn } from '@/lib/utils';
 
 const chartData = [
   { day: 'Mon', patients: 5 },
@@ -33,7 +27,37 @@ const chartData = [
   { day: 'Sun', patients: 4 },
 ];
 
+type BookingSource = 'App' | 'IVR';
+type BookingStatus = 'Pending' | 'Confirmed' | 'Completed' | 'Cancelled';
+
+const allBookings = [
+    { patient: 'Raju Das', time: '5:00 PM, 4 Aug', location: 'Dibrugarh', source: 'IVR' as BookingSource, status: 'Pending' as BookingStatus },
+    { patient: 'Priya Singh', time: '9:30 AM, 4 Aug', location: 'Guwahati', source: 'App' as BookingSource, status: 'Confirmed' as BookingStatus },
+    { patient: 'Ananya Das', time: '10:00 AM, 4 Aug', location: 'Jorhat', source: 'App' as BookingSource, status: 'Confirmed' as BookingStatus },
+    { patient: 'Rohan Sharma', time: '11:15 AM, 4 Aug', location: 'Nalbari', source: 'IVR' as BookingSource, status: 'Pending' as BookingStatus },
+    { patient: 'Vikram Mehta', time: '2:00 PM, 4 Aug', location: 'Sivasagar', source: 'App' as BookingSource, status: 'Completed' as BookingStatus },
+    { patient: 'Sunita Devi', time: '4:30 PM, 4 Aug', location: 'Guwahati', source: 'IVR' as BookingSource, status: 'Cancelled' as BookingStatus },
+];
+
+
 export default function ProviderDashboard() {
+  const [filter, setFilter] = useState<'All' | 'App' | 'IVR'>('All');
+
+  const filteredBookings = allBookings.filter(booking => {
+    if (filter === 'All') return true;
+    return booking.source === filter;
+  });
+
+  const getStatusBadgeVariant = (status: BookingStatus) => {
+    switch (status) {
+        case 'Confirmed': return 'default';
+        case 'Pending': return 'secondary';
+        case 'Completed': return 'outline';
+        case 'Cancelled': return 'destructive';
+        default: return 'secondary';
+    }
+  }
+
   return (
     <>
       <main className="flex flex-1 flex-col gap-4 md:gap-8">
@@ -95,53 +119,59 @@ export default function ProviderDashboard() {
           </Card>
         </div>
         <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-          <Card className="xl:col-span-2">
+           <Card className="xl:col-span-2">
             <CardHeader>
-              <CardTitle>Today's Appointments</CardTitle>
-              <CardDescription>
-                A list of patient appointments scheduled for today.
-              </CardDescription>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <CardTitle>Bookings</CardTitle>
+                    <CardDescription>
+                        A list of all patient bookings from multiple sources.
+                    </CardDescription>
+                </div>
+                <div className="flex items-center gap-2 mt-4 sm:mt-0">
+                    <Button variant={filter === 'All' ? 'default' : 'outline'} size="sm" onClick={() => setFilter('All')}>All</Button>
+                    <Button variant={filter === 'App' ? 'default' : 'outline'} size="sm" onClick={() => setFilter('App')}>App</Button>
+                    <Button variant={filter === 'IVR' ? 'default' : 'outline'} size="sm" onClick={() => setFilter('IVR')}>IVR</Button>
+                </div>
+              </div>
             </CardHeader>
-            <CardContent>
-               <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Patient</TableHead>
-                    <TableHead>Time</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead className="text-right">Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Rohan Sharma</div>
-                      <div className="text-sm text-muted-foreground">#10234</div>
-                    </TableCell>
-                    <TableCell>9:00 AM</TableCell>
-                    <TableCell>New Consultation</TableCell>
-                    <TableCell className="text-right"><Badge variant="outline">Upcoming</Badge></TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Priya Singh</div>
-                      <div className="text-sm text-muted-foreground">#10231</div>
-                    </TableCell>
-                    <TableCell>9:30 AM</TableCell>
-                    <TableCell>Follow-up</TableCell>
-                    <TableCell className="text-right"><Badge variant="outline">Upcoming</Badge></TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Ananya Das (Pet: Fluffy)</div>
-                      <div className="text-sm text-muted-foreground">#10225</div>
-                    </TableCell>
-                    <TableCell>10:00 AM</TableCell>
-                    <TableCell>Check-up</TableCell>
-                    <TableCell className="text-right"><Badge>Checked-in</Badge></TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+            <CardContent className="grid gap-4 md:grid-cols-2">
+               {filteredBookings.map((booking, index) => (
+                    <Card 
+                        key={index} 
+                        className={cn("flex flex-col", booking.source === 'IVR' ? 'bg-amber-50 border-amber-200' : '')}
+                    >
+                        <CardHeader className="flex-row items-start justify-between gap-4 pb-4">
+                           <div>
+                            <p className="font-bold text-lg">{booking.patient}</p>
+                            <div className="text-sm text-muted-foreground flex items-center gap-2">
+                                <Clock className="h-4 w-4" />
+                                <span>{booking.time}</span>
+                            </div>
+                           </div>
+                           <Badge variant={booking.source === 'IVR' ? 'destructive' : 'default'} className={cn(booking.source === 'IVR' && 'bg-amber-600 hover:bg-amber-700')}>
+                               {booking.source === 'IVR' ? <Phone className="mr-1.5 h-3 w-3" /> : <Smartphone className="mr-1.5 h-3 w-3" />}
+                               {booking.source} Booking
+                           </Badge>
+                        </CardHeader>
+                        <CardContent className="flex-grow">
+                             <div className="text-sm text-muted-foreground">
+                                <span className="font-semibold text-foreground">Location:</span> {booking.location}
+                            </div>
+                        </CardContent>
+                        <CardFooter className="pt-4">
+                            <div className="flex items-center justify-between w-full">
+                                <p className="text-sm font-medium">Status:</p>
+                                <Badge variant={getStatusBadgeVariant(booking.status)}>{booking.status}</Badge>
+                            </div>
+                        </CardFooter>
+                    </Card>
+               ))}
+               {filteredBookings.length === 0 && (
+                <div className="col-span-2 text-center text-muted-foreground py-10">
+                    No bookings found for the "{filter}" filter.
+                </div>
+               )}
             </CardContent>
           </Card>
           <Card>
