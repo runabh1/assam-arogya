@@ -236,7 +236,7 @@ export default function ReportAnalyzerPage() {
                 <div>
                     <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
                         <AlertTriangle className="h-5 w-5 text-destructive" />
-                        {selectedLang === 'Assamese' ? 'আপোনাৰ ডাক্তৰৰ লগত আলোচনা কৰিবলগীয়া সম্ভাৱ্য বিষয়' : 'Potential Concerns to Discuss with Your Doctor'}
+                        {selectedLang === 'Assamese' ? 'আপোনাৰ ডাক্তৰৰ লগত আলোচনা কৰিবলগীয়া সম্ভাব্য বিষয়' : 'Potential Concerns to Discuss with Your Doctor'}
                     </h3>
                      <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                         {result.potentialConcerns.map((concern, index) => (
@@ -246,7 +246,7 @@ export default function ReportAnalyzerPage() {
                 </div>
             </CardContent>
              <CardFooter className="text-sm text-muted-foreground">
-                <p><strong>{selectedLang === 'Assamese' ? 'অস্বীকাৰ' : 'Disclaimer'}:</strong> {selectedLang === 'Assamese' ? 'এই AI বিশ্লেষণ কেৱল তথ্যৰ বাবেহে আৰু ই পেছাদাৰী চিকিৎসা পৰামৰ্শ, নিদান বা চিকিৎসাৰ বিকল্প নহয়।' : 'This AI analysis is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment.'}</p>
+                <p><strong>{selectedLang === 'Assamese' ? 'অস্বীকাৰ' : 'Disclaimer'}:</strong> {selectedLang === 'Assamese' ? 'এইটো এটা AI চালিত বিশ্লেষণ আৰু ই কোনো চিকিৎসা পৰামৰ্শ নহয়। সদায় এজন চিকিৎসকৰ লগত পৰামৰ্শ ল’ব।' : 'This AI analysis is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment.'}</p>
             </CardFooter>
           </Card>
         )}
