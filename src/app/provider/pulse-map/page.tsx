@@ -134,26 +134,7 @@ export default function PulseMapPage() {
             </CardHeader>
             <CardContent>
                 <div className="relative w-full aspect-[1024/597] rounded-lg overflow-hidden border">
-                    {/* Replace SVG with Google Maps iframe */}
-                    <iframe
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        loading="lazy"
-                        allowFullScreen
-                        src={`https://www.google.com/maps/embed/v1/view?key=AIzaSyAvQgbf70SiCJCGAjtzjnql1zqrKDtRF00&center=26.2006,92.9376&zoom=7&region=IN`}
-                    ></iframe>
-
-                    {/* You can add markers or other overlays here using Google Maps JavaScript API if needed,
-                        but for a simple iframe, you might not have granular control over highlighting districts
-                        based on the `allAlerts` data directly within the iframe.
-                        A more complex implementation would involve using the Google Maps JavaScript API
-                        to dynamically add markers or highlight areas based on your data.
-                        For this example, we'll keep the markers from the previous SVG implementation
-                        positioned absolutely over the iframe as a visual indicator,
-                        understanding that their positioning might not be perfectly accurate
-                        relative to the dynamic map content.
-                    */}
+                    <AssamMap />
                     {filteredAlerts.map((alert) => (
                         <Tooltip key={alert.id}>
                             <TooltipTrigger asChild>
