@@ -41,18 +41,16 @@ const prompt = ai.definePrompt({
   name: 'analyzeReportPrompt',
   input: {schema: AnalyzeReportInputSchema},
   output: {schema: AnalyzeReportOutputSchema},
-  prompt: `You are a helpful AI medical assistant for both human and veterinary health. Your role is to analyze a medical report and provide a clear, simplified summary for a patient or animal owner. Do not provide a diagnosis.
-
-You will identify key findings and potential concerns that the user should discuss with their healthcare provider or veterinarian.
+  prompt: `You are an AI medical assistant for human and veterinary health. Your task is to analyze a medical report and provide a simplified summary.
 
 **CRITICAL LANGUAGE INSTRUCTION:**
-Your entire output, including 'summary', 'keyFindings', and 'potentialConcerns', MUST be in the language specified in the "Language for Response" field.
-- If Language for Response is 'Assamese', your entire response MUST be in Assamese.
-- If Language for Response is 'English' or not specified, your entire response MUST be in English.
+You MUST generate your response in the language specified in the "Language for Response" field.
+- **IF Language for Response is 'Assamese', THEN your ENTIRE response for 'summary', 'keyFindings', and 'potentialConcerns' MUST be translated into Assamese.** This is a strict rule.
+- IF Language for Response is 'English' or not specified, your entire response MUST be in English.
 
 Language for Response: {{{language}}}
 
-The following text and/or image was extracted from a user-uploaded medical report file for a human or a domestic animal. Analyze it and provide the output in the specified format and language.
+The following text and/or image was extracted from a user-uploaded medical report for a human or a domestic animal. Analyze it and provide the output in the specified format and language.
 
 {{#if report}}
 Medical Report Content:
