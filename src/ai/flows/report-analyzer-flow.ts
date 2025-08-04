@@ -22,6 +22,7 @@ const AnalyzeReportInputSchema = z.object({
     .describe(
       "An optional photo of a medical report for a human or a domestic animal, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
+  language: z.string().optional().describe('The language for the response (e.g., "Assamese", "English"). Defaults to English if not provided.'),
 });
 export type AnalyzeReportInput = z.infer<typeof AnalyzeReportInputSchema>;
 
@@ -43,6 +44,12 @@ const prompt = ai.definePrompt({
   prompt: `You are a helpful AI medical assistant for both human and veterinary health. Your role is to analyze a medical report and provide a clear, simplified summary for a patient or animal owner. Do not provide a diagnosis.
 
 You will identify key findings and potential concerns that the user should discuss with their healthcare provider or veterinarian.
+
+IMPORTANT LANGUAGE INSTRUCTIONS:
+- If the user's specified language is 'Assamese', all output fields ('summary', 'keyFindings', 'potentialConcerns') MUST be in Assamese.
+- If the language is 'English' or not specified, the entire response should be in English.
+
+Language for Response: {{{language}}}
 
 The following text and/or image was extracted from a user-uploaded medical report file for a human or a domestic animal. Analyze it and provide the output in the specified format.
 

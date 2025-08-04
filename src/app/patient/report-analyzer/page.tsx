@@ -30,6 +30,8 @@ import type { AnalyzeReportOutput } from '@/ai/flows/report-analyzer-flow';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 
+type Language = 'English' | 'Assamese';
+
 const formSchema = z.object({
   reportFile: z
     .any()
@@ -48,6 +50,7 @@ export default function ReportAnalyzerPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalyzeReportOutput | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [selectedLang, setSelectedLang] = useState<Language>('English');
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -93,7 +96,11 @@ export default function ReportAnalyzerPage() {
         reportContent = await readFileAsText(file);
       }
       
-      const output = await analyzeReport({ report: reportContent, photoDataUri });
+      const output = await analyzeReport({ 
+        report: reportContent, 
+        photoDataUri,
+        language: selectedLang,
+      });
       setResult(output);
     } catch (error) {
       console.error(error);
@@ -116,11 +123,30 @@ export default function ReportAnalyzerPage() {
               <CardHeader>
                 <CardTitle>AI Report Analyzer</CardTitle>
                 <CardDescription>
-                  Upload a medical report (.txt, .pdf, or an image). The AI will provide a simplified summary.
+                  Upload a medical report (.txt, .pdf, or an image). The AI will provide a simplified summary in your chosen language.
                   This is not a medical diagnosis. Always consult with a qualified healthcare professional.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
+                 <div className="space-y-2">
+                    <FormLabel>Language</FormLabel>
+                    <div className="flex gap-2">
+                        <Button 
+                            type="button" 
+                            variant={selectedLang === 'English' ? 'secondary' : 'outline'} 
+                            onClick={() => setSelectedLang('English')}
+                        >
+                            English
+                        </Button>
+                        <Button 
+                            type="button" 
+                            variant={selectedLang === 'Assamese' ? 'secondary' : 'outline'} 
+                            onClick={() => setSelectedLang('Assamese')}
+                        >
+                            Assamese
+                        </Button>
+                    </div>
+                </div>
                 <FormField
                   control={form.control}
                   name="reportFile"
@@ -192,15 +218,15 @@ export default function ReportAnalyzerPage() {
           <Card className="mt-8">
             <CardHeader className="flex flex-row items-center gap-2">
               <FileCheck2 className="h-6 w-6 text-primary" />
-              <CardTitle>Analysis Complete</CardTitle>
+              <CardTitle>{selectedLang === 'Assamese' ? 'বিশ্লেষণ সম্পূৰ্ণ' : 'Analysis Complete'}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
                 <div>
-                    <h3 className="font-semibold text-lg mb-2">Summary</h3>
+                    <h3 className="font-semibold text-lg mb-2">{selectedLang === 'Assamese' ? 'সাৰাংশ' : 'Summary'}</h3>
                     <p className="text-muted-foreground">{result.summary}</p>
                 </div>
                 <div>
-                    <h3 className="font-semibold text-lg mb-2">Key Findings</h3>
+                    <h3 className="font-semibold text-lg mb-2">{selectedLang === 'Assamese' ? 'মুখ্য ফলাফল' : 'Key Findings'}</h3>
                     <div className="flex flex-wrap gap-2">
                         {result.keyFindings.map((finding, index) => (
                             <Badge key={index} variant="secondary">{finding}</Badge>
@@ -210,7 +236,7 @@ export default function ReportAnalyzerPage() {
                 <div>
                     <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
                         <AlertTriangle className="h-5 w-5 text-destructive" />
-                        Potential Concerns to Discuss with Your Doctor
+                        {selectedLang === 'Assamese' ? 'আপোনাৰ ডাক্তৰৰ লগত আলোচনা কৰিবলগীয়া সম্ভাৱ্য বিষয়' : 'Potential Concerns to Discuss with Your Doctor'}
                     </h3>
                      <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                         {result.potentialConcerns.map((concern, index) => (
@@ -220,7 +246,7 @@ export default function ReportAnalyzerPage() {
                 </div>
             </CardContent>
              <CardFooter className="text-sm text-muted-foreground">
-                <p><strong>Disclaimer:</strong> This AI analysis is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment.</p>
+                <p><strong>{selectedLang === 'Assamese' ? 'অস্বীকাৰ' : 'Disclaimer'}:</strong> {selectedLang === 'Assamese' ? 'এই AI বিশ্লেষণ কেৱল তথ্যৰ বাবেহে আৰু ই পেছাদাৰী চিকিৎসা পৰামৰ্শ, নিদান বা চিকিৎসাৰ বিকল্প নহয়।' : 'This AI analysis is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment.'}</p>
             </CardFooter>
           </Card>
         )}
