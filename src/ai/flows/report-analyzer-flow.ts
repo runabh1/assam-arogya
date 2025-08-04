@@ -45,13 +45,14 @@ const prompt = ai.definePrompt({
 
 You will identify key findings and potential concerns that the user should discuss with their healthcare provider or veterinarian.
 
-IMPORTANT LANGUAGE INSTRUCTIONS:
-- If the user's specified language is 'Assamese', all output fields ('summary', 'keyFindings', 'potentialConcerns') MUST be in Assamese.
-- If the language is 'English' or not specified, the entire response should be in English.
+**CRITICAL LANGUAGE INSTRUCTION:**
+Your entire output, including 'summary', 'keyFindings', and 'potentialConcerns', MUST be in the language specified in the "Language for Response" field.
+- If Language for Response is 'Assamese', your entire response MUST be in Assamese.
+- If Language for Response is 'English' or not specified, your entire response MUST be in English.
 
 Language for Response: {{{language}}}
 
-The following text and/or image was extracted from a user-uploaded medical report file for a human or a domestic animal. Analyze it and provide the output in the specified format.
+The following text and/or image was extracted from a user-uploaded medical report file for a human or a domestic animal. Analyze it and provide the output in the specified format and language.
 
 {{#if report}}
 Medical Report Content:
