@@ -22,6 +22,12 @@ const AiHealthNavigatorInputSchema = z.object({
 export type AiHealthNavigatorInput = z.infer<typeof AiHealthNavigatorInputSchema>;
 
 const AiHealthNavigatorOutputSchema = z.object({
+  potentialDisease: z
+    .string()
+    .describe('The name of the potential disease or condition based on the symptoms.'),
+  precautions: z
+    .string()
+    .describe('A list of immediate precautions the user can take.'),
   specialist: z
     .string()
     .describe('The type of specialist recommended (e.g., Cardiologist, Dermatologist, Veterinarian). This MUST always be in English.'),
@@ -42,18 +48,18 @@ const prompt = ai.definePrompt({
   name: 'aiHealthNavigatorPrompt',
   input: {schema: AiHealthNavigatorInputSchema},
   output: {schema: AiHealthNavigatorOutputSchema},
-  prompt: `You are an AI health navigator for both humans and domestic animals. A user will describe symptoms and their location. Your task is to identify the most relevant medical specialist and suggest next steps.
+  prompt: `You are an AI health navigator for both humans and domestic animals. A user will describe symptoms and their location. Your task is to identify a potential disease, suggest precautions, find the most relevant medical specialist, and suggest next steps.
 
 IMPORTANT LANGUAGE INSTRUCTIONS:
 - The 'specialist' field MUST always be in English (e.g., "Cardiology", "Dermatologist", "Veterinarian"). This is critical for system functionality.
-- If the user's specified language is 'Assamese', the 'reasoning' and 'nextSteps' fields MUST be in Assamese.
+- If the user's specified language is 'Assamese', all other fields ('potentialDisease', 'precautions', 'reasoning', and 'nextSteps') MUST be in Assamese.
 - If the language is 'English' or not specified, the entire response should be in English.
 
 Language for Response: {{{language}}}
 Symptoms: {{{symptoms}}}
 Location: {{{location}}}
 
-Based on the symptoms, determine the specialist, provide a brief reasoning, and suggest the next appropriate action.
+Based on the symptoms, determine the potential disease, precautions, recommended specialist, reasoning, and the next appropriate action. This is not a formal medical diagnosis.
 `,
 });
 
@@ -68,4 +74,3 @@ const aiHealthNavigatorFlow = ai.defineFlow(
     return output!;
   }
 );
-

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Bot, Loader2, Mic } from "lucide-react";
+import { Bot, Loader2, Mic, HeartPulse, ShieldCheck, Stethoscope } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -252,16 +252,30 @@ export default function AiHealthNavigatorPage() {
               <Bot className="h-6 w-6 text-primary" />
               <CardTitle>{selectedLang === 'as-IN' ? 'পৰামৰ্শ' : 'Recommendation'}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
+              <div className="flex items-start gap-4">
+                <HeartPulse className="h-6 w-6 text-red-500 mt-1" />
+                <div>
+                  <p className="text-sm text-muted-foreground">{selectedLang === 'as-IN' ? 'সম্ভাব্য ৰোগ' : 'Potential Disease'}</p>
+                  <p className="font-semibold">{result.potentialDisease}</p>
+                </div>
+              </div>
+               <div className="flex items-start gap-4">
+                <ShieldCheck className="h-6 w-6 text-green-500 mt-1" />
+                <div>
+                  <p className="text-sm text-muted-foreground">{selectedLang === 'as-IN' ? 'সতৰ্কতা' : 'Precautions'}</p>
+                  <p>{result.precautions}</p>
+                </div>
+              </div>
+               <div className="flex items-start gap-4">
+                <Stethoscope className="h-6 w-6 text-blue-500 mt-1" />
+                <div>
+                  <p className="text-sm text-muted-foreground">{selectedLang === 'as-IN' ? 'পৰামৰ্শ দিয়া বিশেষজ্ঞ' : 'Recommended Specialist'}</p>
+                  <p className="font-semibold">{result.specialist}</p>
+                   <p className="text-xs">{result.reasoning}</p>
+                </div>
+              </div>
               <div>
-                <p className="text-sm text-muted-foreground">{selectedLang === 'as-IN' ? 'পৰামৰ্শ দিয়া বিশেষজ্ঞ' : 'Recommended Specialist'}</p>
-                <p className="text-lg font-semibold">{result.specialist}</p>
-              </div>
-               <div>
-                <p className="text-sm text-muted-foreground">{selectedLang === 'as-IN' ? 'কাৰণ' : 'Reasoning'}</p>
-                <p>{result.reasoning}</p>
-              </div>
-               <div>
                 <p className="text-sm text-muted-foreground">{selectedLang === 'as-IN' ? 'পৰৱৰ্তী পদক্ষেপ' : 'Next Steps'}</p>
                 <p>{result.nextSteps}</p>
               </div>
