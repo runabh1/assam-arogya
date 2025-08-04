@@ -50,14 +50,14 @@ const prompt = ai.definePrompt({
   output: {schema: AiHealthNavigatorOutputSchema},
   prompt: `You are an AI health navigator for both humans and domestic animals. A user will describe symptoms and their location. Your task is to identify a potential disease, suggest precautions, find the most relevant medical specialist, and suggest next steps.
 
-IMPORTANT LANGUAGE INSTRUCTIONS:
-- The 'specialist' field MUST always be in English (e.g., "Cardiology", "Dermatologist", "Veterinarian"). This is critical for system functionality.
-- If the user's specified language is 'Assamese', all other fields ('potentialDisease', 'precautions', 'reasoning', and 'nextSteps') MUST be in Assamese.
-- If the language is 'English' or not specified, the entire response should be in English.
-
 Language for Response: {{{language}}}
 Symptoms: {{{symptoms}}}
 Location: {{{location}}}
+
+**CRITICAL LANGUAGE INSTRUCTIONS:**
+- The 'specialist' field MUST always be in English (e.g., "Cardiology", "Dermatologist", "Veterinarian"). This is critical for system functionality.
+- IF the user's specified 'language' is 'Assamese', THEN ALL other fields ('potentialDisease', 'precautions', 'reasoning', and 'nextSteps') MUST be translated into Assamese.
+- IF the language is 'English' or not specified, the entire response should be in English.
 
 Based on the symptoms, determine the potential disease, precautions, recommended specialist, reasoning, and the next appropriate action. This is not a formal medical diagnosis.
 `,
