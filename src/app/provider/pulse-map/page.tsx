@@ -58,10 +58,12 @@ const severityIcons = {
   Normal: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
 }
 
+const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
 export default function PulseMapPage() {
-  const { isLoaded } = useJsApiLoader({
+  const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
+    googleMapsApiKey: API_KEY || ""
   });
 
   const [filteredAlerts, setFilteredAlerts] = useState(allAlerts);
@@ -90,6 +92,47 @@ export default function PulseMapPage() {
   };
 
   const uniqueDistricts = [...new Set(allAlerts.map(a => a.district))];
+
+  const renderMap = () => {
+    if (loadError) {
+      return <div style={containerStyle} className="flex items-center justify-center bg-destructive/10 text-destructive rounded-lg"><p>Error loading map. Please check the API key and configuration.</p></div>;
+    }
+
+    if (!isLoaded) {
+      return <div style={containerStyle} className="flex items-center justify-center bg-muted rounded-lg"><p>Loading map...</p></div>;
+    }
+
+    return (
+      <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={7}
+      >
+          {filteredAlerts.map((alert) => (
+              <Marker
+                  key={alert.id}
+                  position={alert.position}
+                  icon={{
+                    url: severityIcons[alert.severity],
+                    scaledSize: new window.google.maps.Size(32, 32),
+                  }}
+                  onClick={() => handleMarkerClick(alert.id)}
+              >
+                  {activeMarker === alert.id && (
+                      <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                          <div className="text-sm">
+                              <p className="font-bold">{alert.district}</p>
+                              <p><span className="font-semibold">Symptom:</span> {alert.symptom}</p>
+                              <p><span className="font-semibold">Reports:</span> {alert.count}</p>
+                              <p><span className="font-semibold">Action:</span> {alert.action}</p>
+                          </div>
+                      </InfoWindow>
+                  )}
+              </Marker>
+          ))}
+      </GoogleMap>
+    )
+  }
 
   return (
     <main className="flex flex-1 flex-col gap-4 md:gap-8">
@@ -163,40 +206,7 @@ export default function PulseMapPage() {
                 <CardDescription>Live visualization of symptom clusters across Assam.</CardDescription>
             </CardHeader>
             <CardContent>
-                {isLoaded ? (
-                    <GoogleMap
-                        mapContainerStyle={containerStyle}
-                        center={center}
-                        zoom={7}
-                    >
-                        {filteredAlerts.map((alert) => (
-                            <Marker
-                                key={alert.id}
-                                position={alert.position}
-                                icon={{
-                                  url: severityIcons[alert.severity],
-                                  scaledSize: new window.google.maps.Size(32, 32),
-                                }}
-                                onClick={() => handleMarkerClick(alert.id)}
-                            >
-                                {activeMarker === alert.id && (
-                                    <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-                                        <div className="text-sm">
-                                            <p className="font-bold">{alert.district}</p>
-                                            <p><span className="font-semibold">Symptom:</span> {alert.symptom}</p>
-                                            <p><span className="font-semibold">Reports:</span> {alert.count}</p>
-                                            <p><span className="font-semibold">Action:</span> {alert.action}</p>
-                                        </div>
-                                    </InfoWindow>
-                                )}
-                            </Marker>
-                        ))}
-                    </GoogleMap>
-                ) : (
-                  <div style={containerStyle} className="flex items-center justify-center bg-muted rounded-lg">
-                    <p>Loading map...</p>
-                  </div>
-                )}
+              {renderMap()}
             </CardContent>
         </Card>
     </main>
