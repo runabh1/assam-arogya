@@ -1,13 +1,14 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { GoogleMap, useJsApiLoader, MarkerF, InfoWindow } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Send } from 'lucide-react';
+import { Send, Siren } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   AlertDialog,
@@ -29,25 +30,66 @@ type Alert = {
   symptom: string;
   count: number;
   severity: AlertSeverity;
-  position: { x: number; y: number }; // Using x/y for SVG coordinates
+  position: { lat: number; lng: number };
   action: string;
 }
 
 const allAlerts: Alert[] = [
-    { id: 1, district: 'Sivasagar', symptom: 'Mouth Ulcers', count: 6, severity: 'High', position: { x: 750, y: 380 }, action: 'Check water quality' },
-    { id: 2, district: 'Barpeta', symptom: 'Fever', count: 3, severity: 'Medium', position: { x: 280, y: 300 }, action: 'Monitor trend' },
-    { id: 3, district: 'Guwahati', symptom: 'Chest Pain', count: 7, severity: 'High', position: { x: 380, y: 390 }, action: 'Alert cardiologists' },
-    { id: 4, district: 'Dibrugarh', symptom: 'Cough', count: 2, severity: 'Normal', position: { x: 800, y: 250 }, action: 'Continue monitoring' },
-    { id: 5, district: 'Nalbari', symptom: 'Fatigue', count: 12, severity: 'High', position: { x: 320, y: 340 }, action: 'Investigate cluster' },
+    { id: 1, district: 'Sivasagar', symptom: 'Mouth Ulcers', count: 6, severity: 'High', position: { lat: 26.98, lng: 94.63 }, action: 'Check water quality' },
+    { id: 2, district: 'Barpeta', symptom: 'Fever', count: 3, severity: 'Medium', position: { lat: 26.32, lng: 91.00 }, action: 'Monitor trend' },
+    { id: 3, district: 'Guwahati', symptom: 'Chest Pain', count: 7, severity: 'High', position: { lat: 26.14, lng: 91.73 }, action: 'Alert cardiologists' },
+    { id: 4, district: 'Dibrugarh', symptom: 'Cough', count: 2, severity: 'Normal', position: { lat: 27.47, lng: 94.91 }, action: 'Continue monitoring' },
+    { id: 5, district: 'Nalbari', symptom: 'Fatigue', count: 12, severity: 'High', position: { lat: 26.44, lng: 91.43 }, action: 'Investigate cluster' },
 ];
 
+
+const mapStyles = [
+  { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
+  { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+  { elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
+  { elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f5" }] },
+  { featureType: "administrative.land_parcel", stylers: [{ visibility: "off" }] },
+  { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: "#bdbdbd" }] },
+  { featureType: "poi", elementType: "geometry", stylers: [{ color: "#eeeeee" }] },
+  { featureType: "poi", elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
+  { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#e5e5e5" }] },
+  { featureType: "poi.park", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] },
+  { featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
+  { featureType: "road.arterial", elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
+  { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#dadada" }] },
+  { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
+  { featureType: "road.local", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] },
+  { featureType: "transit.line", elementType: "geometry", stylers: [{ color: "#e5e5e5" }] },
+  { featureType: "transit.station", elementType: "geometry", stylers: [{ color: "#eeeeee" }] },
+  { featureType: "water", elementType: "geometry", stylers: [{ color: "#c9c9c9" }] },
+  { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] }
+];
+
+
+const containerStyle = {
+  width: '100%',
+  height: '600px',
+  borderRadius: '0.5rem',
+};
+
+const center = {
+  lat: 26.5,
+  lng: 92.9
+};
+
 const severityColors: Record<AlertSeverity, string> = {
-  High: 'fill-red-500',
-  Medium: 'fill-yellow-500',
-  Normal: 'fill-green-500',
-}
+  High: 'red',
+  Medium: 'orange',
+  Normal: 'green',
+};
+
 
 export default function PulseMapPage() {
+  const { isLoaded, loadError } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''
+  });
+
   const [filteredAlerts, setFilteredAlerts] = useState(allAlerts);
   const [districtFilter, setDistrictFilter] = useState('all');
   const [severityFilter, setSeverityFilter] = useState({ High: true, Medium: true, Normal: true });
@@ -69,7 +111,20 @@ export default function PulseMapPage() {
     }
   };
   
-  const uniqueDistricts = [...new Set(allAlerts.map(a => a.district))];
+  const uniqueDistricts = useMemo(() => [...new Set(allAlerts.map(a => a.district))], []);
+  
+  const getMarkerIcon = (severity: AlertSeverity) => ({
+    path: window.google.maps.SymbolPath.CIRCLE,
+    scale: 8,
+    fillColor: severityColors[severity],
+    fillOpacity: 0.8,
+    strokeColor: 'white',
+    strokeWeight: 2,
+  });
+
+
+  if (loadError) return <div className="text-red-500 font-bold">Error loading maps. Please check the API key and configuration.</div>;
+  if (!isLoaded) return <div>Loading Maps...</div>;
 
   return (
     <main className="flex flex-1 flex-col gap-4 md:gap-8">
@@ -137,100 +192,50 @@ export default function PulseMapPage() {
             </Card>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-            <Card className="md:col-span-2">
-                <CardHeader>
-                    <CardTitle>Community Health Heatmap</CardTitle>
-                    <CardDescription>Live visualization of symptom clusters across Assam.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="relative w-full" onMouseLeave={() => setActiveAlert(null)}>
-                        {/* Simplified Assam Map SVG */}
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 1000 600"
-                            className="w-full h-auto bg-muted/20 rounded-lg border"
+        <Card>
+            <CardHeader>
+                <CardTitle>Community Health Heatmap</CardTitle>
+                <CardDescription>Live visualization of symptom clusters across Assam.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                 <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={center}
+                    zoom={7}
+                    options={{
+                        styles: mapStyles,
+                        disableDefaultUI: true,
+                        zoomControl: true,
+                    }}
+                >
+                    {filteredAlerts.map((alert) => (
+                        <MarkerF
+                            key={alert.id}
+                            position={alert.position}
+                            onClick={() => setActiveAlert(alert)}
+                            icon={getMarkerIcon(alert.severity)}
+                        />
+                    ))}
+
+                    {activeAlert && (
+                        <InfoWindow
+                            position={activeAlert.position}
+                            onCloseClick={() => setActiveAlert(null)}
                         >
-                            <path d="M991.13,382,925.39,343.4,900.5,301.17,860.84,272.58,829,220.14l-52-32.55-23-28.84-29.35-41-17.5-23.8L658,41.21l-36.8,1.64L577.4,61.1,532.51,51,507,17.47,442.22,2.5,417.33,26.74,360,19.12,319,30.25,296.2,59.46,231,77.34l-53.7,29.1L134.4,141.5l-23,21.67-27.1,43.08-31.42,28.84-25,32.8L8.28,318.51,6.86,419.8,25.43,454,80.1,489.2l13,19.92,19.1,23.8,43.3,21.41,33.5,31.21,114.6,22.14,64.8-11.47,51.8-21.41,29.3-36.88,88.4-44.42,52.8-6.55,54.9,13.11,36.7,22.95,49,42.82,41.9,18.28,40.8,32.28,47.8-23.53,13.7-27.42Z" 
-                            className="fill-background stroke-border stroke-2"
-                            />
-
-                            {/* Alert Pins */}
-                            {filteredAlerts.map((alert) => (
-                                <g key={alert.id} onMouseEnter={() => setActiveAlert(alert)}>
-                                    <circle
-                                        cx={alert.position.x}
-                                        cy={alert.position.y}
-                                        r="12"
-                                        className={`${severityColors[alert.severity]} opacity-30 animate-pulse`}
-                                    />
-                                    <circle
-                                        cx={alert.position.x}
-                                        cy={alert.position.y}
-                                        r="6"
-                                        className={`${severityColors[alert.severity]} stroke-white stroke-2 cursor-pointer`}
-                                    />
-                                </g>
-                            ))}
-                        </svg>
-
-                         {/* Tooltip */}
-                        {activeAlert && (
-                            <div 
-                                className="absolute p-3 bg-card border rounded-lg shadow-lg text-sm transition-all pointer-events-none"
-                                style={{
-                                    left: `${activeAlert.position.x}px`,
-                                    top: `${activeAlert.position.y}px`,
-                                    transform: 'translate(15px, -100%)' // Offset from pin
-                                }}
-                            >
-                                <p className="font-bold">{activeAlert.district}</p>
-                                <p><span className="font-semibold">Symptom:</span> {activeAlert.symptom}</p>
-                                <p><span className="font-semibold">Reports:</span> {activeAlert.count}</p>
-                                <p><span className="font-semibold">Action:</span> {activeAlert.action}</p>
+                            <div className="p-2 max-w-xs">
+                                <h4 className="font-bold text-lg mb-2">{activeAlert.district}</h4>
+                                <div className="space-y-1">
+                                    <p><span className="font-semibold">Symptom:</span> {activeAlert.symptom}</p>
+                                    <p><span className="font-semibold">Reports:</span> {activeAlert.count}</p>
+                                    <p><span className="font-semibold">Severity:</span> <span style={{color: severityColors[activeAlert.severity]}}>{activeAlert.severity}</span></p>
+                                    <p className="mt-2"><span className="font-semibold">Action:</span> {activeAlert.action}</p>
+                                </div>
                             </div>
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
-
-            <Card className="md:col-span-1">
-                <CardHeader>
-                    <CardTitle>Alert Details</CardTitle>
-                    <CardDescription>Details for the selected health alert.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    {activeAlert ? (
-                        <div className="space-y-4">
-                            <div>
-                                <Label>District</Label>
-                                <p className="font-semibold text-lg">{activeAlert.district}</p>
-                            </div>
-                            <div>
-                                <Label>Symptom</Label>
-                                <p className="font-semibold">{activeAlert.symptom}</p>
-                            </div>
-                            <div>
-                                <Label>Severity</Label>
-                                <p className={`font-semibold ${severityColors[activeAlert.severity].replace('fill', 'text')}`}>{activeAlert.severity}</p>
-                            </div>
-                            <div>
-                                <Label>Reported Cases</Label>
-                                <p className="font-semibold">{activeAlert.count}</p>
-                            </div>
-                            <div>
-                                <Label>Suggested Action</Label>
-                                <p className="font-semibold">{activeAlert.action}</p>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="text-center text-muted-foreground py-10">
-                            <p>Hover over an alert on the map to see details here.</p>
-                        </div>
+                        </InfoWindow>
                     )}
-                </CardContent>
-            </Card>
-        </div>
+                </GoogleMap>
+            </CardContent>
+        </Card>
     </main>
   );
 }
