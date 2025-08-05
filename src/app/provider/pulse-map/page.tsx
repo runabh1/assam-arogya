@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Send } from 'lucide-react';
+import { Send, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   AlertDialog,
@@ -94,8 +94,25 @@ export default function PulseMapPage() {
   const uniqueDistricts = [...new Set(allAlerts.map(a => a.district))];
 
   const renderMap = () => {
+    if (!API_KEY) {
+        return (
+            <div style={containerStyle} className="flex flex-col items-center justify-center bg-destructive/10 text-destructive rounded-lg p-4">
+                <AlertTriangle className="h-8 w-8 mb-2" />
+                <p className="font-bold">Configuration Error</p>
+                <p className="text-center text-sm">The Google Maps API key is missing from the application's environment configuration. Please ensure the `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is set.</p>
+            </div>
+        )
+    }
+
     if (loadError) {
-      return <div style={containerStyle} className="flex items-center justify-center bg-destructive/10 text-destructive rounded-lg"><p>Error loading map. Please check the API key and configuration.</p></div>;
+      return (
+        <div style={containerStyle} className="flex flex-col items-center justify-center bg-destructive/10 text-destructive rounded-lg p-4">
+            <AlertTriangle className="h-8 w-8 mb-2" />
+            <p className="font-bold">Map Loading Error</p>
+            <p className="text-center text-sm">The map could not be loaded. This is likely due to an invalid or misconfigured API key in your Google Cloud project.</p>
+            <p className="text-center text-xs mt-2">Please double-check that the key is correct, has billing enabled, and that the "Maps JavaScript API" is enabled in your Google Cloud Console.</p>
+        </div>
+      );
     }
 
     if (!isLoaded) {
