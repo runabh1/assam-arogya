@@ -17,6 +17,7 @@ import {
   Beaker,
   ShieldCheck,
   GitCommitVertical,
+  Dog,
 } from "lucide-react";
 
 import {
@@ -38,6 +39,7 @@ import { Menu } from "lucide-react";
 
 const pageTitles: { [key: string]: string } = {
   "/patient/dashboard": "Dashboard",
+  "/patient/mitrapet": "MitraPet Dashboard",
   "/patient/profile": "My Profiles",
   "/patient/navigator": "AI Health Navigator",
   "/patient/find-provider": "Find a Provider",
@@ -82,6 +84,15 @@ export default function PatientLayout({
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Dashboard
+              </Link>
+              <Link
+                href="/patient/mitrapet"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                  isActive("/patient/mitrapet") ? "bg-muted text-primary" : ""
+                }`}
+              >
+                <Dog className="h-4 w-4" />
+                MitraPet
               </Link>
               <Link
                 href="/patient/profile"
@@ -208,6 +219,17 @@ export default function PatientLayout({
                 >
                   <LayoutDashboard className="h-5 w-5" />
                   Dashboard
+                </Link>
+                 <Link
+                  href="/patient/mitrapet"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${
+                    isActive("/patient/mitrapet")
+                      ? "bg-muted text-foreground"
+                      : ""
+                  }`}
+                >
+                  <Dog className="h-5 w-5" />
+                  MitraPet
                 </Link>
                 <Link
                   href="/patient/profile"

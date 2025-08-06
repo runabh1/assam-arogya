@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -40,7 +41,7 @@ export default function Home() {
             </p>
             <div className="flex justify-center gap-4">
               <Button size="lg" asChild>
-                <Link href="/patient/dashboard">Get Started as a Patient</Link>
+                <Link href="/patient/mitrapet">Get Started as a Patient</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
                 <Link href="/provider/dashboard">Join as a Provider</Link>
