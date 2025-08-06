@@ -36,6 +36,7 @@ type Record = {
 }
 
 const initialRecords: Record[] = [
+    { document: "Cardiac Stress Test Results", date: "2024-07-18", type: "Cardiology", sharedWith: "Dr. Singh (Provider)" },
     { document: "Blood Test Results", date: "2024-07-15", type: "Lab Report", sharedWith: "Dr. Carter" },
     { document: "X-Ray: Left Knee", date: "2024-06-20", type: "Imaging", sharedWith: "Dr. Verma" },
     { document: "Buddy's Vaccination Certificate", date: "2024-05-01", type: "Veterinary", sharedWith: "Dr. Desai" },

@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
-import { User, Dog } from 'lucide-react';
+import { User, Dog, Send } from 'lucide-react';
+import Link from 'next/link';
 
 
 const patients = [
@@ -22,12 +23,20 @@ export default function PatientsPage() {
       <main className="flex-1 md:gap-8">
         <Card>
             <CardHeader>
-                <CardTitle>Patient Management</CardTitle>
                 <div className="flex justify-between items-center">
-                    <CardDescription>Search, view, and manage your patient records.</CardDescription>
-                    <div className="w-1/3">
-                        <Input placeholder="Search patients..." />
+                    <div>
+                        <CardTitle>Patient Management</CardTitle>
+                        <CardDescription>Search, view, and manage your patient records.</CardDescription>
                     </div>
+                     <Button asChild>
+                        <Link href="/provider/patients/send-report">
+                            <Send className="mr-2 h-4 w-4" />
+                            Send Report
+                        </Link>
+                    </Button>
+                </div>
+                 <div className="pt-4">
+                    <Input placeholder="Search patients by name or ID..." />
                 </div>
             </CardHeader>
             <CardContent>
@@ -46,7 +55,7 @@ export default function PatientsPage() {
                                 <TableCell>
                                     <div className="flex items-center gap-3">
                                         <Avatar>
-                                            <AvatarImage src={patient.avatar} />
+                                            <AvatarImage src={patient.avatar} data-ai-hint="person portrait" />
                                             <AvatarFallback>{patient.name.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                         <div>

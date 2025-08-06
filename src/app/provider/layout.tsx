@@ -12,6 +12,7 @@ import {
   Users,
   User,
   Map,
+  Send,
 } from "lucide-react";
 
 import { Logo } from "@/components/logo";
@@ -30,6 +31,7 @@ const pageTitles: { [key: string]: string } = {
   "/provider/dashboard": "Dashboard",
   "/provider/analytics": "Predictive Analytics",
   "/provider/patients": "Patient Management",
+  "/provider/patients/send-report": "Send Report",
   "/provider/calendar": "Calendar",
   "/provider/pulse-map": "Arogya PulseMap™",
 };
