@@ -2,7 +2,7 @@
 'use client';
 import { useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import { IndianRupee, Users, ArrowRight, Map, Siren, Phone, Smartphone, Clock } from 'lucide-react';
+import { IndianRupee, Users, ArrowRight, Map, Siren, Phone, Smartphone, Clock, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const chartData = [
   { day: 'Mon', patients: 5 },
@@ -39,6 +40,13 @@ const allBookings = [
     { patient: 'Vikram Mehta', time: '2:00 PM, 4 Aug', location: 'Sivasagar', source: 'App' as BookingSource, status: 'Completed' as BookingStatus },
     { patient: 'Sunita Devi', time: '4:30 PM, 4 Aug', location: 'Guwahati', source: 'IVR' as BookingSource, status: 'Cancelled' as BookingStatus },
 ];
+
+const recentPayments = [
+    { name: 'Priya Singh', amount: '1500.00', avatar: 'https://placehold.co/100x100' },
+    { name: 'Rohan Sharma', amount: '800.00', avatar: 'https://placehold.co/100x100' },
+    { name: 'Ananya Das', amount: '1200.00', avatar: 'https://placehold.co/100x100' },
+    { name: 'Vikram Mehta', amount: '2500.00', avatar: 'https://placehold.co/100x100' },
+]
 
 
 export default function ProviderDashboard() {
@@ -63,22 +71,41 @@ export default function ProviderDashboard() {
     <>
       <main className="flex flex-1 flex-col gap-4 md:gap-8">
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Today's Revenue
-              </CardTitle>
-              <IndianRupee className="h-4 w-4 text-muted-foreground" />
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle>Recent Payments</CardTitle>
+              <CardDescription>
+                You have received {recentPayments.length} payments today.
+              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold flex items-center">
-                <IndianRupee className="h-6 w-6 mr-1" />
-                3,42,205.00
+            <CardContent className="grid gap-4">
+              <div className="flex items-center gap-4 text-2xl font-bold">
+                 <IndianRupee className="h-6 w-6" />
+                 3,42,205.00
+                 <span className="text-xs text-muted-foreground font-normal">+15.2% from last week</span>
               </div>
-              <p className="text-xs text-muted-foreground">
-                +15.2% from last week
-              </p>
+              <div className="grid gap-4">
+                 {recentPayments.map((payment, index) => (
+                    <div className="flex items-center gap-4" key={index}>
+                        <Avatar className="h-9 w-9">
+                            <AvatarImage src={payment.avatar} alt="Avatar" data-ai-hint="person portrait" />
+                            <AvatarFallback>{payment.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                         <div className="grid gap-1 flex-1">
+                            <p className="text-sm font-medium leading-none">{payment.name}</p>
+                        </div>
+                        <div className="ml-auto font-medium flex items-center"><IndianRupee className="h-4 w-4 mr-1" />{payment.amount}</div>
+                    </div>
+                ))}
+              </div>
             </CardContent>
+             <CardFooter>
+                 <Button className="w-full" asChild>
+                    <Link href="#">
+                        View All Payments <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                </Button>
+            </CardFooter>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -94,7 +121,7 @@ export default function ProviderDashboard() {
               </p>
             </CardContent>
           </Card>
-          <Card className="lg:col-span-2 bg-primary text-primary-foreground">
+          <Card className="bg-primary text-primary-foreground">
             <CardHeader className="pb-2 flex-row items-center justify-between">
                 <CardTitle className="text-xl font-bold text-primary-foreground">Arogya PulseMap™</CardTitle>
                  <Map className="h-6 w-6 text-primary-foreground/80" />
@@ -201,3 +228,5 @@ export default function ProviderDashboard() {
     </>
   );
 }
+
+    
