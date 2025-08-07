@@ -41,7 +41,7 @@ export default function Home() {
             </p>
             <div className="flex justify-center gap-4">
               <Button size="lg" asChild>
-                <Link href="/patient/mitrapet">Get Started as a Patient</Link>
+                <Link href="/patient/dashboard">Get Started as a Patient</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
                 <Link href="/provider/dashboard">Join as a Provider</Link>

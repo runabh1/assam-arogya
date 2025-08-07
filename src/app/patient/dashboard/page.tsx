@@ -7,6 +7,8 @@ import {
   Feather,
   Flower,
   GitCommitVertical,
+  Heart,
+  ShieldCheck,
   User,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -28,83 +30,123 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Separator } from '@/components/ui/separator';
 
 export default function PatientDashboard() {
   return (
     <>
       <main className="grid flex-1 items-start gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
         <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-            <Card>
-              <CardHeader className="pb-2">
-                 <CardTitle className="flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
-                  My Profile
-                </CardTitle>
-                <CardDescription>Jane Doe</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button size="sm" asChild>
-                  <Link href="/patient/profile">View Profile</Link>
-                </Button>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                 <CardTitle className="flex items-center gap-2">
-                  <Dog className="h-5 w-5 text-primary" />
-                  Pet Profiles
-                </CardTitle>
-                <CardDescription>2 Active Profiles</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-2">
-                  <Avatar className="h-6 w-6">
+          {/* Human Health Section */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <Heart className="h-6 w-6 text-primary" />
+                <CardTitle>My Health</CardTitle>
+              </div>
+              <CardDescription>
+                Manage your personal health profile and services.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <User className="h-4 w-4 text-primary" />
+                      My Profile
+                    </CardTitle>
+                    <CardDescription>Jane Doe</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button size="sm" asChild>
+                      <Link href="/patient/profile">View Profile</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <Feather className="h-4 w-4 text-primary" />
+                      Health Navigator
+                    </CardTitle>
+                    <CardDescription>AI symptom check</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button size="sm" variant="outline" asChild>
+                      <Link href="/patient/navigator">Start Check</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <GitCommitVertical className="h-4 w-4 text-primary" />
+                      Genome Guardian
+                    </CardTitle>
+                    <CardDescription>Predict future risks</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button size="sm" variant="outline" asChild>
+                      <Link href="/patient/genome-guardian">Get Forecast</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                 <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <ShieldCheck className="h-4 w-4 text-primary" />
+                      Predictive Health
+                    </CardTitle>
+                    <CardDescription>Assess major risks</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button size="sm" variant="outline" asChild>
+                      <Link href="/patient/predictive-health">Analyze</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+          
+           {/* Pet Health Section */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <Dog className="h-6 w-6 text-primary" />
+                <CardTitle>MitraPet</CardTitle>
+              </div>
+              <CardDescription>
+                Access pet profiles and veterinary services.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col sm:flex-row items-center gap-4">
+               <div className="flex-1 flex items-center gap-4">
+                  <Avatar className="h-8 w-8">
                     <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="dog" />
                     <AvatarFallback>B</AvatarFallback>
                   </Avatar>
-                   <Avatar className="h-6 w-6">
+                   <Avatar className="h-8 w-8">
                     <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="cat" />
                     <AvatarFallback>L</AvatarFallback>
                   </Avatar>
-                  <span>Buddy & Lucy</span>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                 <CardTitle className="flex items-center gap-2">
-                  <Feather className="h-5 w-5 text-primary" />
-                  Health Navigator
-                </CardTitle>
-                <CardDescription>Get AI-powered advice</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button size="sm" variant="outline" asChild>
-                  <Link href="/patient/navigator">Start Symptom Check</Link>
-                </Button>
-              </CardContent>
-            </Card>
-             <Card>
-              <CardHeader className="pb-2">
-                 <CardTitle className="flex items-center gap-2">
-                  <GitCommitVertical className="h-5 w-5 text-primary" />
-                  Genome Guardian
-                </CardTitle>
-                <CardDescription>Predict Future Risks</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button size="sm" variant="outline" asChild>
-                  <Link href="/patient/genome-guardian">Get Forecast</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+                  <span className="font-medium">Buddy & Lucy</span>
+               </div>
+               <Button asChild>
+                <Link href="/patient/mitrapet">
+                    Go to MitraPet Dashboard <ArrowUpRight className="h-4 w-4 ml-2" />
+                </Link>
+               </Button>
+            </CardContent>
+          </Card>
+
+
           <Card>
             <CardHeader>
               <CardTitle>Upcoming Appointments</CardTitle>
               <CardDescription>
-                A list of upcoming appointments and consultations.
+                A list of upcoming appointments for you and your pets.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -121,7 +163,7 @@ export default function PatientDashboard() {
                   <TableRow>
                     <TableCell>
                       <div className="font-medium">Dr. Emily Carter</div>
-                      <div className="text-sm text-muted-foreground">Cardiology</div>
+                      <div className="text-sm text-muted-foreground">For: Jane Doe (Self)</div>
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline">Follow-up</Badge>
@@ -136,7 +178,7 @@ export default function PatientDashboard() {
                   <TableRow>
                     <TableCell>
                       <div className="font-medium">Dr. Max (Vet)</div>
-                      <div className="text-sm text-muted-foreground">for Buddy</div>
+                      <div className="text-sm text-muted-foreground">For: Buddy</div>
                     </TableCell>
                     <TableCell>
                       <Badge>Vaccination</Badge>
