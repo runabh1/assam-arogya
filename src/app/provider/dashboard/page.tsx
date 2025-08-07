@@ -2,7 +2,7 @@
 'use client';
 import { useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import { DollarSign, Users, ArrowRight, Map, Siren, Phone, Smartphone, Clock } from 'lucide-react';
+import { IndianRupee, Users, ArrowRight, Map, Siren, Phone, Smartphone, Clock } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -68,10 +68,10 @@ export default function ProviderDashboard() {
               <CardTitle className="text-sm font-medium">
                 Today's Revenue
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <IndianRupee className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$4,205.00</div>
+              <div className="text-2xl font-bold">₹3,42,205.00</div>
               <p className="text-xs text-muted-foreground">
                 +15.2% from last week
               </p>
