@@ -107,47 +107,51 @@ export default function ProviderDashboard() {
                 </Button>
             </CardFooter>
           </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Today's Patients
-              </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">+21</div>
-              <p className="text-xs text-muted-foreground">
-                +10.5% from last week
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="bg-primary text-primary-foreground">
-            <CardHeader className="pb-2 flex-row items-center justify-between">
-                <CardTitle className="text-xl font-bold text-primary-foreground">Arogya PulseMap™</CardTitle>
-                 <Map className="h-6 w-6 text-primary-foreground/80" />
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2 text-sm mb-4">
-                 <Alert variant="destructive" className="bg-red-900/50 border-red-400 text-white p-2">
-                    <Siren className="h-4 w-4" />
-                    <AlertDescription>
-                        <span className="font-bold">Nalbari:</span> 32% spike in fatigue symptoms.
-                    </AlertDescription>
-                 </Alert>
-                  <Alert variant="destructive" className="bg-yellow-900/50 border-yellow-400 text-white p-2">
-                    <Siren className="h-4 w-4" />
-                    <AlertDescription>
-                        <span className="font-bold">Sivasagar:</span> 5 new ulcer cases reported.
-                    </AlertDescription>
-                 </Alert>
+           <div className="grid gap-4 lg:col-span-2">
+              <div className="grid gap-4 auto-rows-min lg:grid-cols-2">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                      Today's Patients
+                    </CardTitle>
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">+21</div>
+                    <p className="text-xs text-muted-foreground">
+                      +10.5% from last week
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-primary text-primary-foreground">
+                  <CardHeader className="pb-2 flex-row items-center justify-between">
+                      <CardTitle className="text-xl font-bold text-primary-foreground">Arogya PulseMap™</CardTitle>
+                      <Map className="h-6 w-6 text-primary-foreground/80" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2 text-sm mb-4">
+                      <Alert variant="destructive" className="bg-red-900/50 border-red-400 text-white p-2">
+                          <Siren className="h-4 w-4" />
+                          <AlertDescription>
+                              <span className="font-bold">Nalbari:</span> 32% spike in fatigue symptoms.
+                          </AlertDescription>
+                      </Alert>
+                        <Alert variant="destructive" className="bg-yellow-900/50 border-yellow-400 text-white p-2">
+                          <Siren className="h-4 w-4" />
+                          <AlertDescription>
+                              <span className="font-bold">Sivasagar:</span> 5 new ulcer cases reported.
+                          </AlertDescription>
+                      </Alert>
+                    </div>
+                    <Button variant="secondary" asChild>
+                      <Link href="/provider/pulse-map">
+                        Launch Radar <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
               </div>
-              <Button variant="secondary" asChild>
-                <Link href="/provider/pulse-map">
-                  Launch Radar <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+          </div>
         </div>
         <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
            <Card className="xl:col-span-2">
@@ -228,5 +232,3 @@ export default function ProviderDashboard() {
     </>
   );
 }
-
-    
