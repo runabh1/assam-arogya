@@ -31,7 +31,7 @@ export default function Home() {
         <section className="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-32">
           <div
             className="absolute inset-0 bg-no-repeat bg-center bg-cover z-0"
-            style={{ backgroundImage: `url(${heroBgImage.src})`, opacity: 0.15 }}
+            style={{ backgroundImage: `url(${heroBgImage.src})`, opacity: 0.35 }}
             data-ai-hint="assam tea garden"
           ></div>
           <div className="relative z-10">
