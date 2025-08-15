@@ -1,6 +1,5 @@
 
 'use client';
-
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -13,6 +12,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Dog, User } from 'lucide-react';
+import Image from 'next/image';
+import image5 from '../../../../images/image5.png';
+
 
 export default function ProfilePage() {
   return (
@@ -23,13 +25,13 @@ export default function ProfilePage() {
           <Card>
             <CardHeader className="flex flex-row items-center gap-4">
               <Avatar className="h-16 w-16">
-                <AvatarImage src="https://placehold.co/100x100" />
+                <Image src={image5} alt="Priyaa" className="rounded-full" />
                 <AvatarFallback>
-                  <User className="h-8 w-8" />
+                  P
                 </AvatarFallback>
               </Avatar>
               <div>
-                <CardTitle className="text-3xl">Jane Doe</CardTitle>
+                <CardTitle className="text-3xl">Priyaa</CardTitle>
                 <CardDescription>
                   Manage your personal information and contact details.
                 </CardDescription>
@@ -38,11 +40,11 @@ export default function ProfilePage() {
             <CardContent className="grid gap-6 md:grid-cols-2">
               <div className="grid gap-2">
                 <Label htmlFor="name">Full Name</Label>
-                <Input id="name" defaultValue="Jane Doe" />
+                <Input id="name" defaultValue="Priyaa" />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="jane.doe@example.com" />
+                <Input id="email" type="email" defaultValue="priyaa@example.com" />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="phone">Phone</Label>
