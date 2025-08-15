@@ -14,6 +14,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Dog, User } from 'lucide-react';
 import Image from 'next/image';
 import image5 from '../../../../images/image5.png';
+import image3 from '../../../../images/image3.jpg';
+import image4 from '../../../../images/image4.jpg';
 
 
 export default function ProfilePage() {
@@ -65,6 +67,7 @@ export default function ProfilePage() {
              <Card>
               <CardHeader className="flex flex-row items-center gap-4">
                 <Avatar className="h-16 w-16">
+                   <AvatarImage src={image3.src} alt="Buddy" data-ai-hint="dog" />
                    <AvatarFallback>
                     <Dog className="h-8 w-8" />
                   </AvatarFallback>
@@ -91,6 +94,7 @@ export default function ProfilePage() {
              <Card>
               <CardHeader className="flex flex-row items-center gap-4">
                 <Avatar className="h-16 w-16">
+                   <AvatarImage src={image4.src} alt="Lucy" data-ai-hint="cat" />
                    <AvatarFallback>
                     <Dog className="h-8 w-8" />
                   </AvatarFallback>
