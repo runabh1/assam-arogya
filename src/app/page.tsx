@@ -54,7 +54,7 @@ export default function Home() {
 
         <section className="bg-card/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 grid md:grid-cols-2 lg:grid-cols-3 gap-12 items-center">
-             <div className="flex flex-col items-center text-center">
+             <div className="flex flex-col items-center text-center transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <div className="p-3 bg-primary/10 rounded-full mb-4">
                 <Leaf className="h-8 w-8 text-primary" />
               </div>
@@ -63,7 +63,7 @@ export default function Home() {
                 Manage your health with ease. Access records, find doctors, and book tests.
               </p>
             </div>
-             <div className="flex flex-col items-center text-center">
+             <div className="flex flex-col items-center text-center transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <div className="p-3 bg-primary/10 rounded-full mb-4">
                 <PawPrint className="h-8 w-8 text-primary" />
               </div>
@@ -72,7 +72,7 @@ export default function Home() {
                 Keep your furry friends healthy. Track vet visits and manage their profiles.
               </p>
             </div>
-             <div className="flex flex-col items-center text-center lg:col-span-1 md:col-span-2">
+             <div className="flex flex-col items-center text-center lg:col-span-1 md:col-span-2 transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <div className="p-3 bg-primary/10 rounded-full mb-4">
                 <HeartHandshake className="h-8 w-8 text-primary" />
               </div>
