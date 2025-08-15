@@ -38,7 +38,7 @@ export default function Home() {
             <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tighter mb-4 text-primary">
               Your Health, Our Priority.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            <p className="text-lg md:text-xl text-foreground max-w-3xl mx-auto mb-8">
               Arogya Mitra is a central hub connecting patients and healthcare providers in Assam. This was built after I lost my grandfather due to lack of timely medical access. Our mission is to prevent that from happening to anyone else.
             </p>
             <div className="flex justify-center gap-4">
