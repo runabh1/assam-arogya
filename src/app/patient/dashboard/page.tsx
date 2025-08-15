@@ -1,3 +1,4 @@
+
 import {
   Activity,
   ArrowUpRight,
@@ -31,6 +32,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Separator } from '@/components/ui/separator';
+import Image from 'next/image';
+import image3 from '../../../../images/image3.jpg';
+import image4 from '../../../../images/image4.jpg';
+
 
 export default function PatientDashboard() {
   return (
@@ -124,11 +129,11 @@ export default function PatientDashboard() {
             <CardContent className="flex flex-col sm:flex-row items-center gap-4">
                <div className="flex-1 flex items-center gap-4">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="dog" />
+                    <Image src={image3} alt="Buddy" className="rounded-full" />
                     <AvatarFallback>B</AvatarFallback>
                   </Avatar>
                    <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="cat" />
+                    <Image src={image4} alt="Lucy" className="rounded-full" />
                     <AvatarFallback>L</AvatarFallback>
                   </Avatar>
                   <span className="font-medium">Buddy & Lucy</span>
