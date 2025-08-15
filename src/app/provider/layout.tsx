@@ -56,7 +56,7 @@ export default function ProviderLayout({
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
-              <Logo className="h-6 w-6 text-primary" width={24} height={24} />
+              <Logo className="h-8 w-8 text-primary" width={32} height={32} />
               <span className="">Arogya Mitra</span>
             </Link>
           </div>
@@ -120,7 +120,7 @@ export default function ProviderLayout({
                   href="/"
                   className="flex items-center gap-2 text-lg font-semibold mb-4"
                 >
-                  <Logo className="h-6 w-6 text-primary" width={24} height={24} />
+                  <Logo className="h-8 w-8 text-primary" width={32} height={32} />
                   <span className="sr-only">Arogya Mitra</span>
                 </Link>
                 <Link
