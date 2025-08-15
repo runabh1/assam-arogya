@@ -59,21 +59,26 @@ export async function predictiveHealthAi(
 const promptTemplate = `You are an intelligent health risk predictor. Analyze the user's input to determine their risk for either Oral Cancer or a Heart Attack. Follow the rules precisely.
 
 Assessment Type: {{assessmentType}}
-Photo provided: {{photoProvided}}
+{{#if photoDataUri}}
+Photo provided for analysis.
+{{/if}}
 
 **IF Assessment Type is 'oralCancer':**
 - Symptoms provided: {{symptoms}}
-- Analyze symptoms like "gum bleeding", "white patch", "jaw swelling", etc.
+{{#if photoDataUri}}
+- Photo of mouth/gums provided: {{media url=photoDataUri}}
+- Analyze the image for visual signs of oral cancer (e.g., lesions, white/red patches, lumps).
+{{/if}}
 
-- **High Risk**: If multiple symptoms strongly correlate with oral cancer AND a photo is provided.
+- **High Risk**: If multiple symptoms strongly correlate with oral cancer AND/OR the photo shows clear visual signs of a potential malignancy.
   - Recommendation: "High Risk of Oral Cancer. Please consult an oncologist immediately."
   - Set isEmergency to true.
   - Suggested Specialist: "Oncologist"
-- **Medium Risk**: If 1-2 symptoms match OR a relevant photo is provided.
+- **Medium Risk**: If 1-2 symptoms match OR the photo shows some visual abnormalities that require professional examination (e.g., persistent ulcer, unusual patch).
   - Recommendation: "Moderate Risk. Recommend a diagnostic checkup with an oncologist or dentist."
   - Set isEmergency to false.
   - Suggested Specialist: "Oncologist"
-- **Low Risk**: If symptoms do not match or the photo is irrelevant/not present.
+- **Low Risk**: If symptoms do not match AND the photo shows normal, healthy tissue without any visual signs for concern. If no photo is provided, base the decision solely on the lack of correlating symptoms.
   - Recommendation: "Low Risk. No urgent concern detected. Continue regular checkups."
   - Set isEmergency to false.
 
@@ -104,29 +109,16 @@ const predictiveHealthAiFlow = ai.defineFlow(
     outputSchema: PredictiveHealthOutputSchema,
   },
   async input => {
-    const {photoDataUri, symptoms, assessmentType, history} = input;
-    const photoProvided = photoDataUri ? 'Yes' : 'No';
+    const { photoDataUri, assessmentType } = input;
 
-    let promptText = promptTemplate
-      .replace('{{assessmentType}}', assessmentType)
-      .replace('{{photoProvided}}', photoProvided)
-      .replace('{{symptoms}}', symptoms)
-      .replace('{{history}}', history || '');
-
-    const promptParts: any[] = [{text: promptText}];
-
-    if (photoDataUri) {
-      promptParts.push({media: {url: photoDataUri}});
-    }
-
-    const {output} = await ai.generate({
-      model: 'googleai/gemini-2.0-flash',
-      prompt: promptParts,
-      output: {
-        schema: PredictiveHealthOutputSchema,
-      },
+    const prompt = ai.definePrompt({
+        name: 'predictiveHealthAiPrompt',
+        input: { schema: PredictiveHealthInputSchema },
+        output: { schema: PredictiveHealthOutputSchema },
+        prompt: promptTemplate,
     });
 
+    const {output} = await prompt(input);
     return output!;
   }
 );
