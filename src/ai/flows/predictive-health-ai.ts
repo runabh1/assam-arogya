@@ -56,48 +56,36 @@ export async function predictiveHealthAi(
   return predictiveHealthAiFlow(input);
 }
 
-const promptTemplate = `You are an intelligent health risk predictor. Analyze the user's input to determine their risk for either Oral Cancer or a Heart Attack. Follow the rules precisely.
+const promptTemplate = `You are an intelligent health risk predictor. Your task is to analyze the user's input to determine their risk for the specified 'assessmentType'. Follow the rules for the given assessment type precisely.
 
-Assessment Type: {{assessmentType}}
+**Assessment Type:** {{assessmentType}}
 
-**IF Assessment Type is 'oralCancer':**
-- Symptoms provided: {{symptoms}}
-{{#if photoDataUri}}
-- Photo of mouth/gums provided: {{media url=photoDataUri}}
-- Analyze the image for visual signs of oral cancer (e.g., lesions, white/red patches, lumps).
-{{else}}
-- No photo provided for analysis.
-{{/if}}
-- **High Risk**: If multiple symptoms strongly correlate with oral cancer AND/OR the photo shows clear visual signs of a potential malignancy.
-  - Recommendation: "High Risk of Oral Cancer. Please consult an oncologist immediately."
-  - Set isEmergency to true.
-  - Suggested Specialist: "Oncologist"
-- **Medium Risk**: If 1-2 symptoms match OR the photo shows some visual abnormalities that require professional examination (e.g., persistent ulcer, unusual patch).
-  - Recommendation: "Moderate Risk. Recommend a diagnostic checkup with an oncologist or dentist."
-  - Set isEmergency to false.
-  - Suggested Specialist: "Oncologist"
-- **Low Risk**: If symptoms do not match AND (if a photo is provided) the photo shows normal, healthy tissue without any visual signs for concern. If no photo is provided, base the decision solely on the lack of correlating symptoms.
-  - Recommendation: "Low Risk. No urgent concern detected. Continue regular checkups."
-  - Set isEmergency to false.
+**User Input:**
+- Symptoms: {{symptoms}}
+{{#if history}}- Medical History: {{history}}{{/if}}
+{{#if photoDataUri}}- Photo: {{media url=photoDataUri}}{{/if}}
 
-**IF Assessment Type is 'heartAttack':**
-- Symptoms provided: {{symptoms}}
-- Medical History: {{history}}
-- Analyze symptoms like "chest pain", "sweating", "shortness of breath" and history like "smoking", "high BP", "family history".
+**Analysis Rules:**
 
-- **High Risk**: If ≥3 danger symptoms (e.g., severe chest pain, radiating pain, shortness of breath) AND ≥2 history risk factors (e.g., smoking, high BP).
-  - Recommendation: "High Risk of Heart Attack. Emergency response recommended. Please call for help immediately."
-  - Set isEmergency to true.
-  - Suggested Specialist: "Cardiologist"
-- **Medium Risk**: If some danger symptoms OR some history risk factors are present.
-  - Recommendation: "Moderate Risk. Schedule a consultation with a cardiologist soon."
-  - Set isEmergency to false.
-  - Suggested Specialist: "Cardiologist"
-- **Low Risk**: Minimal or no symptoms/history.
-  - Recommendation: "Low Risk. Stay monitored and follow a healthy lifestyle."
-  - Set isEmergency to false.
+*   **For 'oralCancer' assessment:**
+    *   Analyze symptoms provided and the photo (if available) for visual signs like lesions, white/red patches, or lumps.
+    *   **High Risk Criteria:** Multiple strong symptoms (e.g., persistent sores, lumps, difficulty swallowing) AND/OR clear visual signs of malignancy in the photo.
+        *   Output: "High Risk of Oral Cancer. Please consult an oncologist immediately.", isEmergency: true, suggestedSpecialist: "Oncologist".
+    *   **Medium Risk Criteria:** One or two relevant symptoms OR visual abnormalities in the photo that need professional examination (e.g., unusual patch, persistent ulcer).
+        *   Output: "Moderate Risk. Recommend a diagnostic checkup with an oncologist or dentist.", isEmergency: false, suggestedSpecialist: "Oncologist".
+    *   **Low Risk Criteria:** Symptoms do not correlate and photo (if provided) shows healthy tissue.
+        *   Output: "Low Risk. No urgent concern detected. Continue regular checkups.", isEmergency: false.
 
-Return the final risk level, recommendation, emergency status, and specialist.
+*   **For 'heartAttack' assessment:**
+    *   Analyze symptoms like "chest pain", "sweating", "shortness of breath" and history like "smoking", "high BP", "family history".
+    *   **High Risk Criteria:** Three or more danger symptoms (e.g., severe chest pain, radiating pain, shortness of breath) AND two or more history risk factors (e.g., smoking, high BP).
+        *   Output: "High Risk of Heart Attack. Emergency response recommended. Please call for help immediately.", isEmergency: true, suggestedSpecialist: "Cardiologist".
+    *   **Medium Risk Criteria:** Some danger symptoms are present, OR some significant history risk factors are present.
+        *   Output: "Moderate Risk. Schedule a consultation with a cardiologist soon.", isEmergency: false, suggestedSpecialist: "Cardiologist".
+    *   **Low Risk Criteria:** Minimal or no correlating symptoms or history risk factors.
+        *   Output: "Low Risk. Stay monitored and follow a healthy lifestyle.", isEmergency: false.
+
+Based on the provided 'assessmentType' and user input, generate the final risk level, recommendation, emergency status, and specialist.
 `;
 
 const predictiveHealthAiPrompt = ai.definePrompt({
