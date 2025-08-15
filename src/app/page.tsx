@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Leaf, PawPrint, Sun, HeartHandshake } from 'lucide-react';
 import { Logo } from '@/components/logo';
-import wellnessImage from '../../images/image1.png'; // Import the image
+import wellnessImage from '../../images/image1.png';
+import heroBgImage from '../../images/image2.png';
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -29,7 +31,7 @@ export default function Home() {
         <section className="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-32">
           <div
             className="absolute inset-0 bg-no-repeat bg-center bg-cover z-0"
-            style={{ backgroundImage: "url('/images/image2.png')", opacity: 0.15 }}
+            style={{ backgroundImage: `url(${heroBgImage.src})`, opacity: 0.15 }}
             data-ai-hint="assam tea garden"
           ></div>
           <div className="relative z-10">
@@ -85,7 +87,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <Image
- src={wellnessImage}
+                      src={wellnessImage}
                       alt="Happy patient from Assam"
                       width={600}
                       height={400}
