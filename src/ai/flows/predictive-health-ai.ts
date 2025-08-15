@@ -59,17 +59,15 @@ export async function predictiveHealthAi(
 const promptTemplate = `You are an intelligent health risk predictor. Analyze the user's input to determine their risk for either Oral Cancer or a Heart Attack. Follow the rules precisely.
 
 Assessment Type: {{assessmentType}}
-{{#if photoDataUri}}
-Photo provided for analysis.
-{{/if}}
 
 **IF Assessment Type is 'oralCancer':**
 - Symptoms provided: {{symptoms}}
 {{#if photoDataUri}}
 - Photo of mouth/gums provided: {{media url=photoDataUri}}
 - Analyze the image for visual signs of oral cancer (e.g., lesions, white/red patches, lumps).
+{{else}}
+- No photo provided for analysis.
 {{/if}}
-
 - **High Risk**: If multiple symptoms strongly correlate with oral cancer AND/OR the photo shows clear visual signs of a potential malignancy.
   - Recommendation: "High Risk of Oral Cancer. Please consult an oncologist immediately."
   - Set isEmergency to true.
@@ -78,7 +76,7 @@ Photo provided for analysis.
   - Recommendation: "Moderate Risk. Recommend a diagnostic checkup with an oncologist or dentist."
   - Set isEmergency to false.
   - Suggested Specialist: "Oncologist"
-- **Low Risk**: If symptoms do not match AND the photo shows normal, healthy tissue without any visual signs for concern. If no photo is provided, base the decision solely on the lack of correlating symptoms.
+- **Low Risk**: If symptoms do not match AND (if a photo is provided) the photo shows normal, healthy tissue without any visual signs for concern. If no photo is provided, base the decision solely on the lack of correlating symptoms.
   - Recommendation: "Low Risk. No urgent concern detected. Continue regular checkups."
   - Set isEmergency to false.
 
