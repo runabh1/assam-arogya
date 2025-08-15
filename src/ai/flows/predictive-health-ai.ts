@@ -102,6 +102,13 @@ Photo provided for analysis.
 Return the final risk level, recommendation, emergency status, and specialist.
 `;
 
+const predictiveHealthAiPrompt = ai.definePrompt({
+    name: 'predictiveHealthAiPrompt',
+    input: { schema: PredictiveHealthInputSchema },
+    output: { schema: PredictiveHealthOutputSchema },
+    prompt: promptTemplate,
+});
+
 const predictiveHealthAiFlow = ai.defineFlow(
   {
     name: 'predictiveHealthAiFlow',
@@ -109,16 +116,7 @@ const predictiveHealthAiFlow = ai.defineFlow(
     outputSchema: PredictiveHealthOutputSchema,
   },
   async input => {
-    const { photoDataUri, assessmentType } = input;
-
-    const prompt = ai.definePrompt({
-        name: 'predictiveHealthAiPrompt',
-        input: { schema: PredictiveHealthInputSchema },
-        output: { schema: PredictiveHealthOutputSchema },
-        prompt: promptTemplate,
-    });
-
-    const {output} = await prompt(input);
+    const {output} = await predictiveHealthAiPrompt(input);
     return output!;
   }
 );
